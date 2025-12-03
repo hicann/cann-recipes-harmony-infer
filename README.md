@@ -9,7 +9,7 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 ## ✨解决方案列表
 |实践|解决方案简介|
 |-----|-----|
-|[QuantMatmul自定义量化](ops/ascendc/docs/custom-npu_quant_matmul.md)在支付宝端侧大模型实践|基于Ascend C实现QuantMatmul自定义量化算子Kirin9030设备上高性能部署。
+|[QuantMatmul](ops/ascendc/docs/custom-npu_quant_matmul.md)在支付宝端侧大模型实践|基于Ascend C实现QuantMatmul自定义量化算子Kirin9030设备上高性能部署。
 |[BandNorm](ops/ascendc/docs/custom-npu_bandnorm.md)在QQ音乐声伴分离实践|基于Ascend C实现BandNorm算子Kirin9030设备上高性能部署。|
 |[RmsNorm](ops/ascendc/docs/custom-npu_rmsnorm.md)在智谱GLM-Edge-1.5b-Chat大模型实践|基于Ascend C实现BandNorm算子KirinX90设备上高性能部署。|
 |[FasterGelu](ops/ascendc/docs/custom-npu_fastergelu.md)在悟空图像SDXL大模型实践|基于Ascend C实现BandNorm算子KirinX90设备上高性能部署。|
