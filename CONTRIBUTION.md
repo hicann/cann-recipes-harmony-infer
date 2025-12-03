@@ -25,7 +25,7 @@
 在开始编码前，请务必遵循以下目录结构与代码风格要求。
 
 #### 2.1 样例目录结构规范
-样例代码**以模型为单位**组织（如 `qwen3`）。
+算子样例代码**以算子为单位**组织（如 `quant_matmul_custom`）。
 
 **修改原则：**
 - **大修改（完整替换/Monkey Patch）**：针对文件修改量大或逻辑复杂的情况，请在 `patches/<框架名>` 下**复刻原仓目录结构**，放置修改后的完整 Python 文件。
@@ -35,21 +35,21 @@
 
 **目录结构示例：**
 ```text
-qwen3                                           # 样例名
-├── patches                                    # 修改补丁总目录
-│   ├── verl                                   # 框架A (如 verl)
-│   │   ├── trainer                            # [大修改] 目录，对应原仓路径
-│   │   │   └── verl_trainer_adaptor.py        # 完整替换或Monkey Patch文件
-│   │   ├── utils                              # [大修改] 目录，对应原仓路径
-│   │   │   └── ...
-│   │   └── 0001-verl-feature-enable_alltoall_overlap.patch  # [小修改] 特性粒度 patch
-│   └── vllm_ascend                            # 框架B(如vllm_ascend)
-│       └── ...
-├── internal                                   # 框架无关的内部文件
-├── Dockerfile                                 # 环境部署文件
-├── prelude_patch.py                           # Monkey Patch 加载的入口文件（如有）
-├── requirements.txt                           # 依赖库（需锁定版本）
-└── README.md                                  # 说明文档
+
+├── docs                                        # 整仓资料目录
+├── ops                                         # 算子样例目录
+│   ├── ascendc                                 # ascendc目录
+│   │   ├── cmake                               # 算子工程编译配置
+│   │   ├── docs                                # 算子样例资料目录
+│   │   │   ├── custom-npu_quant_matmul.md      # quant_matmul算子样例资料
+│   │   ├── src                                 # 算子样例资料目录
+│   │   │   ├── quant_matmul_custom             # quant_matmul算子源码目录
+│   │   │   │   ├── framework                   
+│   │   │   │   │   ├── onnx_pulgin             # quant_matmul算子onnx插件源码目录
+│   │   │   │   │   ├── op_host                 # quant_matmul算子host侧源码目录
+│   │   │   │   │   ├── op_kernel               # quant_matmul算子kernel实现源码目录
+│   │   │   │   │   ├── CMakeList.txt           # quant_matmul算子编译脚本配置
+
 ```
 
 #### 2.2 代码风格
