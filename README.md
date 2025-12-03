@@ -1,2 +1,2 @@
-# cann-recipes-harmony-device-infer
+# cann-recipes-harmony-infer
 
