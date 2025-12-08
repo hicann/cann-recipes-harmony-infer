@@ -1,28 +1,29 @@
-{
-    "op_type": "GeluCustom",
-    "data_script": "gen_data.py",
-    "gen_data": true,
-    "inputs": [
-        {
-            "name": "a",
-            "dtype": "float16",
-            "format": "ND",
-            "ignore": false,
-            "shape": [64,5120],
-            "param_type": "required",
-            "data_file": "a.bin"
-        }
-    ],
-    "outputs": [
-        {
-            "name": "b",
-            "dtype": "float16",
-            "format": "ND",
-            "ignore": false,
-            "shape": [64,5120],
-            "param_type": "required",
-            "data_file": "b.bin"
-        }     
-    ]
-    
-}
+[
+    {
+        "op": "SliceGeluMul",
+        "input_desc": [
+            {
+                "name": "a",
+                "param_type": "required",
+                "format": [
+                    "ND"
+                ],
+                "type": [
+                    "fp16"
+                ]
+            }
+        ],
+        "output_desc": [
+            {
+                "name": "b",
+                "param_type": "required",
+                "format": [
+                    "ND"
+                ],
+                "type": [
+                    "fp16"
+                ]
+            }
+        ]
+    }
+]
