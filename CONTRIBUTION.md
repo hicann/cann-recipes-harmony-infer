@@ -41,9 +41,9 @@
 │   ├── ascendc                                                  # ascendc目录
 │   │   ├── KernelInvocationSample                               # 算子Kernel调用Sample
 │   │   ├── docs                                                 # 算子样例资料目录
-│   │   │   ├── custom-xxx.md                       # xxx算子样例资料
+│   │   │   ├── custom-xxx.md                                    # xxx算子样例资料
 │   │   ├── src                                                  # 算子样例资料目录
-│   │   │   ├── xxx_custom                              # xxx算子源码目录
+│   │   │   ├── xxx_custom                                       # xxx算子源码目录
 │   │   │   │   ├── framework                   
 │   │   │   │   │   ├── onnx_pulgin                              # xxx算子onnx插件源码目录
 │   │   │   │   ├── op_host                                      # xxx算子host侧源码目录
