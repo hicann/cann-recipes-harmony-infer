@@ -1,0 +1,28 @@
+{
+    "op_type": "GeluCustom",
+    "data_script": "gen_data.py",
+    "gen_data": true,
+    "inputs": [
+        {
+            "name": "a",
+            "dtype": "float16",
+            "format": "ND",
+            "ignore": false,
+            "shape": [64,5120],
+            "param_type": "required",
+            "data_file": "a.bin"
+        }
+    ],
+    "outputs": [
+        {
+            "name": "b",
+            "dtype": "float16",
+            "format": "ND",
+            "ignore": false,
+            "shape": [64,5120],
+            "param_type": "required",
+            "data_file": "b.bin"
+        }     
+    ]
+    
+}
