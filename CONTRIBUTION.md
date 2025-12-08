@@ -41,13 +41,13 @@
 │   ├── ascendc                                                  # ascendc目录
 │   │   ├── KernelInvocationSample                               # 算子Kernel调用Sample
 │   │   ├── docs                                                 # 算子样例资料目录
-│   │   │   ├── custom-npu_quant_matmul.md                       # quant_matmul算子样例资料
+│   │   │   ├── custom-xxx.md                       # xxx算子样例资料
 │   │   ├── src                                                  # 算子样例资料目录
-│   │   │   ├── quant_matmul_custom                              # quant_matmul算子源码目录
+│   │   │   ├── xxx_custom                              # xxx算子源码目录
 │   │   │   │   ├── framework                   
-│   │   │   │   │   ├── onnx_pulgin                              # quant_matmul算子onnx插件源码目录
-│   │   │   │   ├── op_host                                      # quant_matmul算子host侧源码目录
-│   │   │   │   ├── op_kernel                                    # quant_matmul算子kernel实现源码目录
+│   │   │   │   │   ├── onnx_pulgin                              # xxx算子onnx插件源码目录
+│   │   │   │   ├── op_host                                      # xxx算子host侧源码目录
+│   │   │   │   ├── op_kernel                                    # xxx算子kernel实现源码目录
 │   │   │   ├── READEME.md                                       # 算子编译执行文档
 │   │   │   ├── install.sh                                       # 算子编译安装脚本
 ```
