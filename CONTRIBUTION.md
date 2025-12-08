@@ -36,20 +36,20 @@
 **目录结构示例：**
 ```text
 
-├── docs                                        # 整仓资料目录
-├── ops                                         # 算子样例目录
-│   ├── ascendc                                 # ascendc目录
-│   │   ├── cmake                               # 算子工程编译配置
-│   │   ├── docs                                # 算子样例资料目录
-│   │   │   ├── custom-npu_quant_matmul.md      # quant_matmul算子样例资料
-│   │   ├── src                                 # 算子样例资料目录
-│   │   │   ├── quant_matmul_custom             # quant_matmul算子源码目录
+├── docs                                                         # 整仓资料目录
+├── ops                                                          # 算子样例目录
+│   ├── ascendc                                                  # ascendc目录
+│   │   ├── KernelInvocationSample                               # 算子Kernel调用Sample
+│   │   ├── docs                                                 # 算子样例资料目录
+│   │   │   ├── custom-npu_quant_matmul.md                       # quant_matmul算子样例资料
+│   │   ├── src                                                  # 算子样例资料目录
+│   │   │   ├── quant_matmul_custom                              # quant_matmul算子源码目录
 │   │   │   │   ├── framework                   
-│   │   │   │   │   ├── onnx_pulgin             # quant_matmul算子onnx插件源码目录
-│   │   │   │   │   ├── op_host                 # quant_matmul算子host侧源码目录
-│   │   │   │   │   ├── op_kernel               # quant_matmul算子kernel实现源码目录
-│   │   │   │   │   ├── CMakeList.txt           # quant_matmul算子编译脚本配置
-
+│   │   │   │   │   ├── onnx_pulgin                              # quant_matmul算子onnx插件源码目录
+│   │   │   │   ├── op_host                                      # quant_matmul算子host侧源码目录
+│   │   │   │   ├── op_kernel                                    # quant_matmul算子kernel实现源码目录
+│   │   │   ├── READEME.md                                       # 算子编译执行文档
+│   │   │   ├── install.sh                                       # 算子编译安装脚本
 ```
 
 #### 2.2 代码风格
