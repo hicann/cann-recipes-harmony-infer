@@ -1,10 +1,10 @@
 # cann-recipes-harmony-infer
 
 ## 🔥Latest News
-- [2025/12] GLM-Edge-1.5B-Chat模型在KirinX90上支持推理部署。
+- [2025/12] Ascend C自定义算子在支付宝端侧大模型、QQ音乐声伴分离、智谱GLM-Edge-1.5b-Chat大模型、悟空图像本地闪绘等项目中的实践。
 
 ## 🚀概述
-cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend C高效实现的自定义创新算法，支持在鸿蒙设备和昇腾设备运行。同时提供基于CANN平台的优化样例，方便开发者快速实现端云模型迁移和部署。
+cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend C高效实现的自定义创新算法，支持在鸿蒙设备和昇腾设备运行。同时提供基于CANN平台的优化样例，方便开发者快速实现端云算子、模型迁移和部署。
 
 ## ✨解决方案列表
 |实践|解决方案简介|
@@ -17,19 +17,10 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 ## 📖目录结构说明
 ```
 ├── docs                                        # 文档目录
-|  ├── models                                   # 模型文档目录
-|  |  ├── chat-glm                              # 智谱chat-glm-1.5B相关文档
-|  |  └── ...
-|  └── common                                   # 公共文档目录
-├── harmony_infer                               # 鸿蒙设备模型执行相关
-|  ├── harmony_os                               # 鸿蒙双框架模型执行
-|  ├── harmony_os_next                          # 鸿蒙单框架框架模型执行
-│  └── ...
-├── models                                      # 模型脚本目录
-|  ├── chat-glm                                 # chat-glm的模型脚本亲和性适配及导出脚本
-│  └── ...
+| ├──common                                     # 公共文档目录
 ├── ops                                         # 算子目录
 |  ├── ascendc                                  # ascendc算子
+|  |  ├── KernelInvocationSample                # 算子Kernel执行样例
 |  |  ├── docs                                  # 算子文档目录
 |  |  |   ├── custom-xxx.md                     # xxxx算子文档
 |  |  |   ├── ...
