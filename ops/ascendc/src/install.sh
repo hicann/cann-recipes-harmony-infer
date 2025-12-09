@@ -1,6 +1,6 @@
 #!/bin/bash
-SHORT=v:,i:,
-LONG=soc-version:,install-path:,
+SHORT=v:,i:,p:,
+LONG=soc-version:,install-path:,op-path:,
 OPTS=$(getopt -a --options $SHORT --longoptions $LONG -- "$@")
 eval set -- "$OPTS"
 
@@ -14,6 +14,10 @@ while :; do
         ASCEND_INSTALL_PATH="$2"
         shift 2
         ;;
+    -p | --op-path)
+        OP_PATH="$2"
+        shift 2
+        ;;
     --)
         shift
         break
@@ -25,7 +29,7 @@ while :; do
     esac
 done
 
-VERSION_LIST="KirinX90 Ascend910A Ascend910B Ascend310B1 Ascend310B2 Ascend310B3 Ascend310B4 Ascend310P1 Ascend310P3 Ascend910B1 Ascend910B2 Ascend910B3 Ascend910B4"
+VERSION_LIST="KirinX90 Kirin9030"
 if [[ " $VERSION_LIST " != *" $SOC_VERSION "* ]]; then
     echo "[ERROR]: SOC_VERSION should be in [$VERSION_LIST]"
     exit -1
@@ -45,12 +49,14 @@ fi
 source $_ASCEND_INSTALL_PATH/bin/setenv.bash
 export ASCEND_HOME_PATH=$_ASCEND_INSTALL_PATH
 
-OP_NAME=GeluCustom
-rm -rf CustomOp
+last_part=$(basename "$OP_PATH")
+outPath=$last_part"_Op"
+rm -rf $outPath
+
 # Generate the op framework
-msopgen gen -i $OP_NAME.json -c ai_core-${SOC_VERSION} -lan cpp -out CustomOp -f onnx
+msopgen gen -i $OP_PATH/*.json -c ai_core-${SOC_VERSION} -lan cpp -f onnx -out $outPath 
 # Copy op implementation files to CustomOp
-cp -rf $OP_NAME/* CustomOp
+cp -rf $OP_PATH/* $outPath
 
 # Build CustomOp project
-(cd CustomOp && bash build.sh)
+(cd $outPath && bash build.sh)

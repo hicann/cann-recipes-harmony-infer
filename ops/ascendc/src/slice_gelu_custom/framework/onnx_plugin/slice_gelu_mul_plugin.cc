@@ -42,6 +42,6 @@ Status ParseParamSliceGeluMul(const ge::Operator& op_src, ge::Operator& op_dest)
 // register SliceGeluMul op info to GE
 REGISTER_CUSTOM_OP("SliceGeluMul")     // Set the registration name of operator
     .FrameworkType(ONNX)   // Operator name with the original framework
-    .OriginOpType("SliceGeluMul")      // Set the original frame type of the operator
+    .OriginOpType("ai.onnx::11::SliceGeluMul")      // Set the original frame type of the operator
     .ParseParamsByOperatorFn(AutoMappingByOpFn); // Registering the callback function for parsing operator parameters
 }  // namespace domi

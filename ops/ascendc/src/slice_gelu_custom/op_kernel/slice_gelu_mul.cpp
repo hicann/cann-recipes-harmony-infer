@@ -1,5 +1,5 @@
 #include "kernel_operator.h"
-#include "../api/lib/activation/gelu.h"
+#include "adv_api/activation/gelu.h"
 
 using namespace AscendC;
 constexpr int32_t BUFFER_NUM = 2;
