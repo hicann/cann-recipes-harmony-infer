@@ -35,12 +35,7 @@ atc --singleop=$HOME/singleop/add.json --output=$HOME/singleop/out/op_model --so
    - --output：转换后的离线模型存放路径。
    - --soc_version：Kirin AI处理器的型号，如kirinx90、kirin9030等。
 
-### 附录1 ATC参数说明
-# ATC参数
-
-使用ATC工具转换模型之前，首先查看使用工具过程中的一些限制，然后借助本章节提供的参数概览功能，可以快速预览相关参数。
-
-
+### 附录
 |ATC参数名称   |参数简述     |是否必选   |默认值   |
 | ------------ | ------------ | ------------ | ------------ |
 |--help或--h   |显示帮助信息。   |否   |不涉及   |
