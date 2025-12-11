@@ -25,31 +25,29 @@
 在开始编码前，请务必遵循以下目录结构与代码风格要求。
 
 #### 2.1 样例目录结构规范
-算子样例代码**以算子为单位**组织（如 `xxx_custom`）。
-
-**修改原则：**
-- **大修改（完整替换/Monkey Patch）**：针对文件修改量大或逻辑复杂的情况，请在 `patches/<框架名>` 下**复刻原仓目录结构**，放置修改后的完整 Python 文件。
-- **小修改（Git Patch）**：针对少量代码修改（Bugfix/参数调整），请基于**特性（Feature）粒度**将多个文件修改合并为一个 `.patch` 文件，置于 `patches/<框架名>` 根目录下。
-  - **Patch 命名规范：**`编号-框架名-类型-特性名.patch` （类型：`feature` 或 `bugfix`；特性名：全小写，下划线连接）
-  - **示例**：`0001-verl-feature-enable_alltoall_overlap.patch`
+算子样例代码**以算子为单位**组织（如 `slice_gelu_custom`）。上传代码时请将整个算子工程完整上传src目录，注意不要将build_out上传。
 
 **目录结构示例：**
 ```text
 
-├── docs                                                         # 整仓资料目录
-├── ops                                                          # 算子样例目录
-│   ├── ascendc                                                  # ascendc目录
-│   │   ├── KernelInvocationSample                               # 算子Kernel调用Sample
-│   │   ├── docs                                                 # 算子样例资料目录
-│   │   │   ├── custom-xxx.md                                    # xxx算子样例资料
-│   │   ├── src                                                  # 算子样例资料目录
-│   │   │   ├── xxx_custom                                       # xxx算子源码目录
-│   │   │   │   ├── framework                   
-│   │   │   │   │   ├── onnx_pulgin                              # xxx算子onnx插件源码目录
-│   │   │   │   ├── op_host                                      # xxx算子host侧源码目录
-│   │   │   │   ├── op_kernel                                    # xxx算子kernel实现源码目录
+├── docs
+├── ops
+│   ├── ascendc
+│   │   ├── KernelInvocationSample
+│   │   ├── docs
+│   │   │   ├── custom-npu_slice_gelu.md                         # slice_gelu算子资料
+│   │   ├── src
+│   │   │   ├── slice_gelu_custom                                # 算子源码工程目录
+│   │   │   │   ├── cmake
+│   │   │   │   ├── framework
+│   │   │   │   │   ├── onnx_pulgin
+│   │   │   │   ├── op_host
+│   │   │   │   ├── op_kernel
+│   │   │   │   ├── scripts
+│   │   │   │   ├── build.sh
+│   │   │   │   ├── CMakeLists.txt
+│   │   │   │   ├── CMakePresets.json
 │   │   │   ├── READEME.md                                       # 算子编译执行文档
-│   │   │   ├── install.sh                                       # 算子编译安装脚本
 ```
 
 #### 2.2 代码风格
