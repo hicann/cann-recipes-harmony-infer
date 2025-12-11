@@ -1,7 +1,7 @@
 # cann-recipes-harmony-infer
 
 ## 🔥Latest News
-- [2025/12] Ascend C自定义算子在支付宝端侧大模型、QQ音乐声伴分离、智谱GLM-Edge-1.5b-Chat大模型、悟空图像本地闪绘等项目中的实践。
+- [2025/12] Ascend C自定义算子在支付宝端侧大模型、QQ音乐声伴分离、智谱GLM-Edge-1.5b-Chat、悟空图像本地闪绘等项目中的实践。
 
 ## 🚀概述
 cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend C高效实现的自定义创新算法，支持在鸿蒙设备和昇腾设备运行。同时提供基于CANN平台的优化样例，方便开发者快速实现端云算子、模型迁移和部署。
