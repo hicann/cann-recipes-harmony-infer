@@ -13,6 +13,7 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 |[BandNorm](ops/ascendc/docs/custom-npu_bandnorm.md)在QQ音乐声伴分离实践|基于Ascend C实现BandNorm自定义数据类型计算，助力QQ音乐在鸿蒙Kirin9020设备上实现人声和伴奏分离。|
 |[RmsNorm](ops/ascendc/docs/custom-npu_rmsnorm.md)在智谱GLM-Edge-1.5b-Chat大模型实践|基于Ascend C实现RmsNorm算子KirinX90设备上高性能部署。|
 |[SliceGelu](ops/ascendc/docs/custom-npu_slice_gelu.md)在悟空图像SDXL大模型实践|基于Ascend C实现SliceGelu融合算子KirinX90设备上高性能部署。|
+|[SobelCustom](ops/ascendc/docs/custom-npu_sobel.md)在某伙伴边缘检测CV处理实践|基于Ascend C实现Sobel自定义算子KirinX90设备上高性能部署。|
 
 ## 📖目录结构说明
 ```
