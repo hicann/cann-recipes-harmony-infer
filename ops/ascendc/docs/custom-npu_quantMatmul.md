@@ -6,14 +6,6 @@
 - [FrameworkLaunch](./FrameworkLaunch)：使用框架调用QuantMatMulCustom自定义算子。  
 按照工程创建->算子实现->编译部署>算子调用的流程完成算子开发。整个过程都依赖于算子工程：基于工程代码框架完成算子核函数的开发和Tiling实现，通过工程编译脚本完成算子的编译部署，继而实现单算子调用或第三方框架中的算子调用。
 
-本样例中包含如下调用方式：
-<table>
-    <th>调用方式</th><th>目录</th><th>描述</th>
-    <tr>
-        <!-- 列的方向占据1个cell -->
-        <td rowspan='1'><a href="./FrameworkLaunch"> FrameworkLaunch</td><td><a href="./FrameworkLaunch/CannMobileInvocation"> CannMobileInvocation</td><td>通过CannMobile调用的方式调用QuantMatMulCustom算子。</td>
-    </tr>
-</table>   
 
 # 算子描述
 QuantMatMulCustom算子对应的数学表达式为：  
