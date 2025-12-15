@@ -1,3 +1,6 @@
+## 应用场景说明
+应用层部署大模型面临两大瓶颈：一是模型物理尺寸过大，影响下载；二是不同手机内存差异大且整体有限，约束了模型运行。为了解决这一难题, CANN与支付宝xNN合作中, 提出基于AscendC的 NPU 版本2 比特量化QuantMatmul解决方案。此方案在支付宝端侧大模型中得到应用实践并验证满足精度要求。
+
 ## QuantMatMulCustom自定义算子样例说明 
 本样例通过Ascend C编程语言实现了QuantMatMulCustom算子，并按照不同的算子调用方式分别给出了对应的端到端实现。在开发者自研（2bit/3bit/4bit）量化算法（不同于硬件厂商提供的量化算法）在端侧NPU上部署场景，可以使用本样例的QuantMatMulCutom算子实现自定义量化的反量化计算和矩阵乘计算。
 - [FrameworkLaunch](./FrameworkLaunch)：使用框架调用QuantMatMulCustom自定义算子。  
