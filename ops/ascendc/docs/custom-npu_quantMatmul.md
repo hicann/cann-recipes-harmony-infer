@@ -39,3 +39,6 @@ $C$ 为计算输出
 - Mate 70 Pro+
 - Mate 70 Pro RS
 - Mate X6
+
+# 编译安装执行
+参考[ascendc算子工程编译部署](../src/README.md)
