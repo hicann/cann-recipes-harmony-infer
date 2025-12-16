@@ -1,0 +1,92 @@
+
+#include "rms_norm_custom_tiling.h"
+#include "register/op_def_registry.h"
+#include "tiling/platform/platform_ascendc.h"
+using namespace std;
+
+namespace optiling {
+static ge::graphStatus TilingFunc(gert::TilingContext* context)
+{
+
+
+    RMSNormTilingData rmsNormTilingData;
+
+    rmsNormTilingData.set_originM(12);
+    rmsNormTilingData.set_originK(2048);
+    rmsNormTilingData.set_epsilon(1e-5);
+    rmsNormTilingData.set_hasGamma(1);
+
+    std::vector<int64_t> shape_vec = {1, 5, 2048};
+    ge::Shape srcShape(shape_vec);
+    ge::Shape originSrcShape(shape_vec);
+
+    optiling::RmsNormTiling myTiling;
+    AscendC::GetRmsNormTilingInfo(srcShape, originSrcShape, 0, 2, rmsNormTilingData.rmsNormTiling, false);
+    rmsNormTilingData.tilingDataGm2Ub.set_blockM(12);
+    rmsNormTilingData.tilingDataGm2Ub.set_splitM(1);
+    rmsNormTilingData.tilingDataGm2Ub.set_splitK(128);
+    rmsNormTilingData.tilingDataGm2Ub.set_loopK(15);
+    rmsNormTilingData.tilingDataGm2Ub.set_tailK(128);
+
+    rmsNormTilingData.tilingDataLargeReduce.set_reduceSplitK(0);
+    rmsNormTilingData.tilingDataLargeReduce.set_reduceLoopK(0);
+    rmsNormTilingData.tilingDataLargeReduce.set_reduceTailK(0);
+
+    context->SetBlockDim(1);
+    rmsNormTilingData.SaveToBuffer(context->GetRawTilingData()->GetData(), context->GetRawTilingData()->GetCapacity());
+    context->GetRawTilingData()->SetDataSize(rmsNormTilingData.GetDataSize());
+
+    size_t *currentWorkspace = context->GetWorkspaceSizes(1);
+    currentWorkspace[0] = 0;
+
+    return ge::GRAPH_SUCCESS;
+}
+}
+
+
+namespace ge {
+static ge::graphStatus InferShape(gert::InferShapeContext* context)
+{
+    const gert::Shape* x1_shape = context->GetInputShape(0);
+    gert::Shape* y_shape = context->GetOutputShape(0);
+    *y_shape = *x1_shape;
+    return GRAPH_SUCCESS;
+}
+static ge::graphStatus InferDataType(gert::InferDataTypeContext* context)
+{
+    context->SetOutputDataType(0, context->GetInputDataType(0));
+    return GRAPH_SUCCESS;
+}
+}
+
+
+namespace ops {
+class RmsNormCustom : public OpDef {
+public:
+    explicit RmsNormCustom(const char* name) : OpDef(name)
+    {
+        this->Input("x")
+            .ParamType(REQUIRED)
+            .DataType({ge::DT_FLOAT16})
+            .Format({ge::FORMAT_ND});
+        this->Input("gamma")
+            .ParamType(REQUIRED)
+            .DataType({ge::DT_FLOAT16})
+            .Format({ge::FORMAT_ND});
+        this->Output("y")
+            .ParamType(REQUIRED)
+            .DataType({ge::DT_FLOAT16})
+            .Format({ge::FORMAT_ND});
+
+        this->SetInferShape(ge::InferShape);
+        this->SetInferDataType(ge::InferDataType);
+
+        this->AICore()
+            .SetTiling(optiling::TilingFunc);
+        this->AICore().AddConfig("kirinx90");
+
+    }
+};
+
+OP_ADD(RmsNormCustom);
+}
