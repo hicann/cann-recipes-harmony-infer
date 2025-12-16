@@ -4,4 +4,4 @@
 2. 开发者还可以通过调用鸿蒙维测接口分析模型和单算子的性能数据，以及通过模型的层级输出对比精度完成问题定位。详细流程请参考[维测调优](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/cannkit-debugging-and-optimization)。
 
 # 目录说明
-- harmony_os_next 鸿蒙Next版本推理样例
+- harmony_os_next 鸿蒙Next版本应用部署样例
