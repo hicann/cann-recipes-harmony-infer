@@ -6,4 +6,4 @@
 # 算子调试
 - 算子编译安装完成后，可选择cpu和npu仿真调试运行，详细步骤请参考[Kernel直调样例运行](../KernelInvocationSample/README.md)。
 
-- 此外，您还可以通过ATC工具转换包含该自定义算子的模型，然后调用鸿蒙运行态接口完成模型在鸿蒙设备上的推理运行。详细步骤请参考[鸿蒙应用开发指南](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/cann-kit-guide)。
+- 此外，您还可以通过ATC工具转换包含该自定义算子的模型，然后调用鸿蒙运行态接口完成模型在鸿蒙设备上的推理运行。详细步骤请参考harmony_infer目录下的[应用部署介绍](../../../harmony_infer/README.md)。
