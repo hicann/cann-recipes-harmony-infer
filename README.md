@@ -19,7 +19,7 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 ```
 ├── docs                                        # 文档目录
 ├── harmony_infer                               # 鸿蒙设备执行
-|  ├── harmony_os_next                          # 鸿蒙next设备执行
+|  ├── harmony_os_next                          # 鸿蒙next设备执行应用工程
 |  ├── README.md
 ├── ops                                         # 算子目录
 |  ├── ascendc
