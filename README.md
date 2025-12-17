@@ -31,7 +31,7 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 |  |  |   ├── xxx_custom                        # xxx自定义算子实现
 |  |  |   ├── ...
 └── CONTRIBUTION.md                             # 本仓贡献指南
-└── README.md                                   # 本公共README
+└── README.md                                   # 本仓公共README
 └── ...
 ```
 
