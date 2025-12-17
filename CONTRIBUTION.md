@@ -49,15 +49,6 @@
 │   │   │   │   ├── CMakePresets.json
 │   │   │   ├── READEME.md                                       # 算子编译执行文档
 ```
-
-#### 2.2 代码风格
-请使用 `pre-commit` 工具确保代码满足基本规范，安装后会在 git commit 时自动检查：
-
-```shell
-pip install pre-commit
-pre-commit install
-```
-
 ### 3. 提交 PR，完善交付内容
 方案达成共识且代码开发完成后，请提交 PR 并关联 RFC Issue。PR 内容需包含：
 - **样例代码**：符合上述目录规范，并通过流水线 code check。
