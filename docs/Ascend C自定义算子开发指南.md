@@ -408,6 +408,7 @@ CANN软件包中提供了工程创建工具msOpGen，开发者可以输入算子
 
 下面的网络模型经过shape和datatype推导之后，可以得到灰色底纹框中的推导信息。
 图1 shape与datatype推导示意图
+
 ![shape与datatype推导示意图](https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyPub/011/111/111/0000000000011111111.20251216162821.86298633453980218262584402283711:50001231000000:2800:644E52123009928645EE2D191D3E6EDDA4518A4EA98C023878FA6A89030CCBBB.png)
 
 除了tiling实现外，算子入图时需要额外提供的实现代码有以下几种：
