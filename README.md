@@ -18,15 +18,17 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 ## 📖目录结构说明
 ```
 ├── docs                                        # 文档目录
-| ├──common                                     # 公共文档目录
+├── harmony_infer                               # 鸿蒙设备执行
+|  ├── harmony_os_next                          # 鸿蒙next设备执行
+|  ├── README.md
 ├── ops                                         # 算子目录
-|  ├── ascendc                                  # ascendc算子
+|  ├── ascendc
 |  |  ├── KernelInvocationSample                # 算子Kernel执行样例
-|  |  ├── docs                                  # 算子文档目录
-|  |  |   ├── custom-xxx.md                     # xxxx算子文档
+|  |  ├── docs                                  # 自定义算子文档目录
+|  |  |   ├── custom-xxx.md                     # xxx自定义算子文档
 |  |  |   ├── ...
-|  |  ├── src                                   # 算子实现目录
-|  |  |   ├── xxx_custom                        # xxx算子实现
+|  |  ├── src                                   # 自定义算子实现目录
+|  |  |   ├── xxx_custom                        # xxx自定义算子实现
 |  |  |   ├── ...
 └── CONTRIBUTION.md                             # 本仓贡献指南
 └── README.md                                   # 本公共README
@@ -37,6 +39,5 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 
 - [贡献指南](./CONTRIBUTION.md)
 - [许可证](./LICENSE)
-
     cann-recipes-harmony-infer仓涉及的模型，如模型目录下存在License的以该License为准。如模型目录下不存在License的，遵循Apache 2.0许可证，对应协议文本可查阅[LICENSE](./LICENSE)
 - [免责声明](./DISCLAIMER.md)
