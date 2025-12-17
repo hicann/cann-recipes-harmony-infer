@@ -355,58 +355,19 @@ CANN软件包中提供了工程创建工具msOpGen，开发者可以输入算子
     } // namespace ops
     ```
 
-
-## 算子工程编译部署
-
-编译AddCustom工程，生成自定义算子安装包，并将其安装到算子库中。
-
-1. 编译自定义算子工程，构建生成自定义算子包。
-    在算子工程AddCustom目录下执行如下命令，进行算子工程编译。
-    ```shell
-    ./build.sh
-    ```
-    
-    编译成功后，会在当前目录下创建build_out目录，在build_out/autogen目录下生成自定义算子交付件。
-    
-2. 自定义算子安装包部署。
-   在执行编译的同时，会将交付件安装到DDK安装目录${DDK_INSTALL_PATH}下的指定目录。
-
-    ```shell
-    ${DDK_INSTALL_PATH}/tools/platform
-    ```
-    
-    查看部署后的目录结构，如下所示：
-
-    ```text
-    platform                            // 平台插件目录
-    ├── kirinx90                       // Kirin AI处理器类型
-    │   ├── config
-    │   │   └── npu_custom_opinfo.json  // 算子信息库
-    │   ├── lib64
-    │   │   └── libcustom_op.so         // host侧二进制文件
-    │   ├── ops
-    │   │   └── impl
-    │   │       ├── custom              // kernel交付件
-    │   │       │   ├── add_custom.cpp
-    │   │       │   ├── add_custom.py
-    │   │       │   └── op_proto.h
-    │   │       └── impl
-    │   └── simulator
-    └── README.md
-    ```
-
-# 算子入图（GE图）开发
-## 算子入图概述
+## 算子入图（GE图）开发
+### 算子入图概述
 图模式是神经网络模型的一种运行模式，在图模式下开发者首先将模型的计算过程构造成一张图，然后通过GE将图下发到Kirin硬件执行。相对于单个算子依次下发的方式，图模式下，GE可以通过计算图优化、多流并行、内存复用、模型下沉等技术手段，加速模型执行效率，减少模型内存占用。
 
 算子入图的开发流程如下图所示，算子工程创建完成后，基于工程代码框架完成算子原型定义、Kernel侧算子实现、Host侧Tiling实现并完成算子入图开发，通过工程编译脚本完成算子的编译部署，之后即可基于图IR执行算子，比如单算子模型执行或者IR构图的方式调用自定义算子。该开发流程以工程化算子开发为基础，除了需要提供算子实现中的算子实现文件外，还需要额外交付算子入图的代码文件。
 
 ![算子入图流程](https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyPub/011/111/111/0000000000011111111.20251216162819.62019094373656597380607052696226:50001231000000:2800:433BE5510DC2A8ADABC6096E85BE450A11D902F335E7B2ACAFCB6056EC2F543D.png)
 
-## 开发流程
+### 开发流程
 假设下图是我们需要使用的网络模型，开发者可能会想直接逐个算子调用，根据输入tensor得到输出tensor就可以完成网络的运行，但在图模式场景下，实际的网络模型生成过程中，会先进行tensor shape以及datatype的推导。这样可以让我们在图执行之前，就知道各tensor的数据类型和形状，提前校验其正确性；同时提前推理出算子的输出张量描述，包括张量的形状、数据类型及数据排布格式等信息，算子构图准备阶段就可以为所有的张量静态分配内存，避免动态内存分配带来的开销。
 
 下面的网络模型经过shape和datatype推导之后，可以得到灰色底纹框中的推导信息。
+
 图1 shape与datatype推导示意图
 
 ![shape与datatype推导示意图](https://alliance-communityfile-drcn.dbankcdn.com/FileServer/getFile/cmtyPub/011/111/111/0000000000011111111.20251216162821.86298633453980218262584402283711:50001231000000:2800:644E52123009928645EE2D191D3E6EDDA4518A4EA98C023878FA6A89030CCBBB.png)
@@ -474,7 +435,7 @@ OP_ADD(AddCustom);
 } // namespace ops
 ```
 
-### datatype推导
+#### datatype推导
 以AddCustom算子为例，InferDataType的实现如下所示。该样例中输出tensor的数据类型与输入tensor的数据类型相同，所以直接将任意一个输入tensor的数据类型赋给输出tensor即可。
 
 ```cpp
@@ -497,7 +458,7 @@ ge::graphStatus InferDataTypeForFoo(gert::InferDataTypeContext* context) {
 }
 ```
 
-### shape推导
+#### shape推导
 简单的shape推导逻辑可以使用Follow接口来表达，比如输出shape和输入shape相同的情况。示例如下。
 
 输出“y1”Follow输入“x1”场景，指定Follow模式为SHAPE，此时“y1”的shape将会和“x1”保持一致。
@@ -553,7 +514,7 @@ InferShapeContext public继承自ExtendedKernelContext，因此ExtendedKernelCon
 - InferShape推导函数和使用Follow接口去Follow shape不能混用，即不支持部分输出采用InferShape推导、部分输出采用Follow推导的情况。若开发者同时使用了InferShape函数和Follow接口，以开发者的InferShape函数为准，需要保证在InferShape函数中能够推导出所有的输出shape。
 - 为了效率考虑，调用InferShape函数时，框架不会为输出shape做初始化，因此，在InferShape函数中，可以认为输出是未初始化的状态。如果在InferShape时，希望通过Append方式操作输出shape，需要先将输出shape的DimNum清零，以防止出现未定义行为。
 
-### InferShape时获取属性、输入
+#### InferShape时获取属性、输入
 在InferShape、Tiling时，可以通过context实例获取算子IR属性值，所谓IR属性，是指在IR注册时定义的属性，以TransData算子为例：
 ```cpp
 namespace ops { 
@@ -596,7 +557,7 @@ ge::graphStatus ExampleGetTransDataAttr(TilingContext *context) {
 }
 ```
 
-### 数据依赖
+#### 数据依赖
 一般来说，具备输入shape后，算子可以通过InferShape推导出输出shape。然而部分算子在InferShape时，需要依赖某个输入的具体值才可以进行，这类算子被称为“数据依赖算子”，对应的输入被称为“数据依赖输入”。以Reshape算子为例，其依据shape输入的描述，对输入的shape做调整，因此Reshape算子依赖shape输入的值。这类算子需要在原型定义时通过ValueDepend接口声明对应的输入为数据依赖输入项。
 ```cpp
 namespace ops { 
@@ -645,6 +606,46 @@ if (shape_tensor->GetDataType() == ge::DT_INT32) {
 注意
 - 只有声明过数据依赖的输入，才可以在InferShape时调用GetInputTensor等获取tensor的接口获取其对应的tensor数据。若对一个未声明数据依赖的输入调用GetInputTensor等获取tensor的接口，只能在tensor中获取到正确的shape、format、datatype信息，无法获取到真实的tensor数据地址（获取到的地址为nullptr）。
 - 从tensor中获取tensor_data时(GetData<int32_t>或GetData<int64_t>)，使用者需要保证获取的数据类型是正确的，否则行为是未定义的。
+
+## 算子工程编译部署
+
+编译AddCustom工程，生成自定义算子安装包，并将其安装到算子库中。
+
+1. 编译自定义算子工程，构建生成自定义算子包。
+    在算子工程AddCustom目录下执行如下命令，进行算子工程编译。
+    ```shell
+    ./build.sh
+    ```
+    
+    编译成功后，会在当前目录下创建build_out目录，在build_out/autogen目录下生成自定义算子交付件。
+    
+2. 自定义算子安装包部署。
+   在执行编译的同时，会将交付件安装到DDK安装目录${DDK_INSTALL_PATH}下的指定目录。
+
+    ```shell
+    ${DDK_INSTALL_PATH}/tools/platform
+    ```
+    
+    查看部署后的目录结构，如下所示：
+
+    ```text
+    platform                            // 平台插件目录
+    ├── kirinx90                       // Kirin AI处理器类型
+    │   ├── config
+    │   │   └── npu_custom_opinfo.json  // 算子信息库
+    │   ├── lib64
+    │   │   └── libcustom_op.so         // host侧二进制文件
+    │   ├── ops
+    │   │   └── impl
+    │   │       ├── custom              // kernel交付件
+    │   │       │   ├── add_custom.cpp
+    │   │       │   ├── add_custom.py
+    │   │       │   └── op_proto.h
+    │   │       └── impl
+    │   └── simulator
+    └── README.md
+    ```
+
 
 # 算子调试调优
 
