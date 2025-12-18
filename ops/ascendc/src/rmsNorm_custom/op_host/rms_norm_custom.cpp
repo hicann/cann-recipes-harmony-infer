@@ -21,9 +21,9 @@ static ge::graphStatus TilingFunc(gert::TilingContext* context)
     optiling::RmsNormTiling myTiling;
     AscendC::GetRmsNormTilingInfo(srcShape, originSrcShape, 4, 2, rmsNormTilingData.rmsNormTiling, false);
 
-    rmsNormTilingData.rmsNormTiling.set_blength(1);
-    rmsNormTilingData.rmsNormTiling.set_slength(1);
-    rmsNormTilingData.rmsNormTiling.set_hlength(2048);
+    rmsNormTilingData.rmsNormTiling.set_bLength(1);
+    rmsNormTilingData.rmsNormTiling.set_sLength(1);
+    rmsNormTilingData.rmsNormTiling.set_hLength(2048);
     rmsNormTilingData.rmsNormTiling.set_originalHLength(2048);
     rmsNormTilingData.rmsNormTiling.set_reciprocalOfHLength(0.00048828125);
     rmsNormTilingData.rmsNormTiling.set_mainBshLength(2048);
