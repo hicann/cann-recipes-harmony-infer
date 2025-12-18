@@ -101,6 +101,7 @@ set(_CMAKE_CCE_HOST_IMPLICIT_INCLUDE_DIRECTORIES
     ${_CMAKE_ASCEND_INSTALL_PATH}/tools/tikcpp/tikcfw/interface
     ${_CMAKE_ASCEND_INSTALL_PATH}/tools/tikicpulib/lib/include
     ${_CMAKE_ASCEND_INSTALL_PATH}/x86_64-linux/include
+    ${_CMAKE_ASCEND_INSTALL_PATH}/x86_64-linux/asc/include
 )
 set(__IMPLICIT_INCLUDES)
 foreach(inc ${_CMAKE_CCE_HOST_IMPLICIT_INCLUDE_DIRECTORIES})

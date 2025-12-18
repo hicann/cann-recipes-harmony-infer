@@ -4,6 +4,6 @@
 # 编译安装
 执行相应算子工程目录下的build.sh脚本即可完成该算子的编译安装。
 # 算子调试
-- 参考[AddKernelInvocation](../KernelInvocationSample/README.md)样例，将kernel实现部分拷贝到add_custom.cpp，执行npu仿真调试。
+- 参考[AddKernelInvocation](../KernelInvocationSample/README.md)样例，将kernel实现部分和相关头文件引用拷贝到add_custom.cpp，执行npu仿真调试。
 
 - 您还可以执行相应算子test目录下的create_onnx.py和gen_data.py，生成相应的onnx单算子测试模型、输入、golden数据后，通过ATC工具转换测试模型，调用鸿蒙维测接口完成单算子的性能和精度验证。详细流程请参考[维测调优](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/cannkit-debugging-and-optimization)。
