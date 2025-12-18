@@ -1,6 +1,6 @@
 # 算子工程编译安装指南
 本项目开始前，请参考[环境准备](../../../docs/quick_install.md)进行环境搭建，并确保开发套件Ascend-cann-toolkit安装完成。
-> **说明**：编译前请确认CMakePresets.json里`ASCEND_CANN_PACKAGE_PATH`字段设置为正确的toolkit包安装路径，一般为`${install_path}/latest`。
+> **说明**：编译前请确认各算子目录CMakePresets.json里`ASCEND_CANN_PACKAGE_PATH`字段设置为正确的toolkit包安装路径，一般为`${install_path}/latest`。
 # 编译安装
 执行相应算子工程目录下的build.sh脚本即可完成该算子的编译安装。
 # 算子调试
