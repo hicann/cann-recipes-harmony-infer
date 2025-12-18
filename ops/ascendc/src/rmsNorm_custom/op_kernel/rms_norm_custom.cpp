@@ -1,5 +1,5 @@
 #include "kernel_operator.h"
-#include "lib/kernel_api.h"
+#include "lib/normalization/rmsnorm.h"
 
 using namespace AscendC;
 
@@ -41,7 +41,7 @@ public:
         srcGlobal_.SetGlobalBuffer((__gm__ T*)srcGm + blockStart_ * oriK_, blockMCount_ * oriK_);
         dstGlobal_.SetGlobalBuffer((__gm__ T*)dstGm + blockStart_ * oriK_, blockMCount_ * oriK_);
         if (hasGamma_) {
-            gamaGlobal_.SetGlobalBuffer((__gm__ T*)gamaGM, oriK_);
+            gamaGlobal_.SetGlobalBuffer((__gm__ T*)gamaGM, oriK_ * 2);
         }
 
         uint32_t padKNum = CeilDivision(oriK_, elementNumPerBlk_) * elementNumPerBlk_;

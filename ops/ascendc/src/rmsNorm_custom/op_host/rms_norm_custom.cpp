@@ -11,18 +11,32 @@ static ge::graphStatus TilingFunc(gert::TilingContext* context)
 
     RMSNormTilingData rmsNormTilingData;
 
-    rmsNormTilingData.set_originM(12);
+    rmsNormTilingData.set_originM(64);
     rmsNormTilingData.set_originK(2048);
     rmsNormTilingData.set_epsilon(1e-5);
     rmsNormTilingData.set_hasGamma(1);
 
-    std::vector<int64_t> shape_vec = {1, 5, 2048};
+    std::vector<int64_t> shape_vec = {1, 1, 2048};
     ge::Shape srcShape(shape_vec);
     ge::Shape originSrcShape(shape_vec);
 
     optiling::RmsNormTiling myTiling;
-    AscendC::GetRmsNormTilingInfo(srcShape, originSrcShape, 0, 2, rmsNormTilingData.rmsNormTiling, false);
-    rmsNormTilingData.tilingDataGm2Ub.set_blockM(12);
+    AscendC::GetRmsNormTilingInfo(srcShape, originSrcShape, 4, 2, rmsNormTilingData.rmsNormTiling, false);
+
+    rmsNormTilingData.rmsNormTiling.set_blength(1);
+    rmsNormTilingData.rmsNormTiling.set_slength(1);
+    rmsNormTilingData.rmsNormTiling.set_hlength(2048);
+    rmsNormTilingData.rmsNormTiling.set_originalHLength(2048);
+    rmsNormTilingData.rmsNormTiling.set_reciprocalOfHLength(0.00048828125);
+    rmsNormTilingData.rmsNormTiling.set_mainBshLength(2048);
+    rmsNormTilingData.rmsNormTiling.set_mainBsLength(1);
+    rmsNormTilingData.rmsNormTiling.set_mainBsLengthAlign(1);
+    rmsNormTilingData.rmsNormTiling.set_loopRound(1);
+    rmsNormTilingData.rmsNormTiling.set_tailBshLength(2048);
+    rmsNormTilingData.rmsNormTiling.set_inputTailPos(0);
+    rmsNormTilingData.rmsNormTiling.set_tailBsLength(0);
+
+    rmsNormTilingData.tilingDataGm2Ub.set_blockM(64);
     rmsNormTilingData.tilingDataGm2Ub.set_splitM(1);
     rmsNormTilingData.tilingDataGm2Ub.set_splitK(128);
     rmsNormTilingData.tilingDataGm2Ub.set_loopK(15);

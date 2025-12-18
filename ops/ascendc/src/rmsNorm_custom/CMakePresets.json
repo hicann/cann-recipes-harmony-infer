@@ -2,7 +2,7 @@
     "version": 1,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 19,
+        "minor": 16,
         "patch": 0
     },
     "configurePresets": [
@@ -56,10 +56,6 @@
                 "CMAKE_CROSS_PLATFORM_COMPILER": {
                     "type": "PATH",
                     "value": "/usr/bin/aarch64-linux-gnu-g++"
-                },
-                "ASCEND_PACK_SHARED_LIBRARY": {
-                    "type": "BOOL",
-                    "value": "False"
                 }
             }
         }
