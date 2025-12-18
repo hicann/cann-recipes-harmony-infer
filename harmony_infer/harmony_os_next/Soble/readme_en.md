@@ -16,11 +16,11 @@ It depends on **libhiai_foundation.so**, a dynamic library of CANN, and **libneu
 
 
 Instructions:
-
-1. On the main screen of the phone, click "NPU Inference" to launch the app. The app will automatically load the model, process the image, and display the processed image along with the model processing time.
-2. Click "CPU Inference" to process the image using the CPU, and display the processed image along with the CPU processing time.
-3. Click "Click for next image" to show the next image.
-4. When exiting the app, the model will be automatically unloaded.
+1. Before building your application using DevEco, please place the OMC model file converted from ATC to the application's entry/src/main/resources/rawfile directory, and then proceed with the application build and installation.
+2. On the main screen of the phone, click "NPU Inference" to launch the app. The app will automatically load the model, process the image, and display the processed image along with the model processing time.
+3. Click "CPU Inference" to process the image using the CPU, and display the processed image along with the CPU processing time.
+4. Click "Click for next image" to show the next image.
+5. When exiting the app, the model will be automatically unloaded.
 
 
 ## Project Directory

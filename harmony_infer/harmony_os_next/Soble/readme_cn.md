@@ -15,11 +15,11 @@
 | ![](screenshots/sobel_pre.jpeg) | ![](screenshots/sobel_finished.jpeg) |![](screenshots/sobel_next.jpeg) |   |
 
 使用说明：
-
-1. 在手机的主屏幕，点击”npu推理“，启动应用，自动加载模型，进行模型处理，将处理后的图片和模型处理时间展示出来
-2. 点击“cpu推理”，将图片交由CPU处理，将处理后的图片和cpu处理时间展示出来
-3. 点击“Click for next image”，展示下一张图片。
-4. 退出应用时，自动卸载模型。
+1. 使用DevEco构建应用前请将ATC转换后的omc模型文件放置到应用entry/src/main/resources/rawfile目录下，再进行应用构建和安装
+2. 在手机的主屏幕，点击“npu推理”，启动应用，自动加载模型，进行模型处理，将处理后的图片和模型处理时间展示出来
+3. 点击“cpu推理”，将图片交由CPU处理，将处理后的图片和cpu处理时间展示出来
+4. 点击“Click for next image”，展示下一张图片。
+5. 退出应用时，自动卸载模型。
 
 ## 工程目录
 ```

@@ -4,6 +4,6 @@
 # 编译安装
 执行相应算子工程目录下的build.sh脚本即可完成该算子的编译安装。
 # 算子调试
-- 算子编译安装完成后，可选择npu仿真调试运行，详细步骤请参考[Kernel直调样例运行](../KernelInvocationSample/README.md)。
+- 参考[AddKernelInvocation](../KernelInvocationSample/README.md)样例，将kernel实现部分拷贝到add_custom.cpp，执行npu仿真调试。
 
-- 此外，您还可以通过ATC工具转换包含该自定义算子的模型，然后调用鸿蒙运行态接口完成模型在鸿蒙设备上的推理运行。详细步骤请参考harmony_infer目录下的[应用部署介绍](../../../harmony_infer/README.md)。
+- 您还可以执行相应算子test目录下的create_onnx.py和gen_data.py，生成相应的onnx单算子测试模型、输入输出数据后，通过ATC工具转换测试模型，然后通过调用鸿蒙维测接口单算子的性能。详细流程请参考[维测调优](https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/cannkit-debugging-and-optimization)。
