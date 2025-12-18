@@ -1,0 +1,35 @@
+import numpy as np
+
+#设置随机种子以便复现
+np.random.seed(42)
+
+#定义形状
+input_shape = (64, 2048)
+gamma_shape = (2048,)
+
+#生成输入数据（float16）
+input_data = np.random.randn(*input_shape).astype(np.float16)
+#生成gamma参数（float16）
+gamma_data = np.random.randn(*gamma_shape).astype(np.float16)
+
+#模拟RMSNorm计算
+#RMSNorm：output  = gamma * input / sqrt(mean(input * 2) + eps))
+eps = 1e-5
+input_squared = input_data ** 2
+mean_squared = input_squared.mean(axis=-1, keepdims=True) #[64,1]
+denominator = np.sqrt(mean_squared + eps) #[64,1]
+
+#归一化并乘以gamma
+output_data = (input_data / denominator) * gamma_shape #[64, 2048]
+
+#保存为bin文件（二进制，小端）
+def save_as_bin(data, filename):
+    data.tofile(filename)
+    print(f"Saved {filename} with shape {data.shape}, dtype {data.dtype}")
+
+#保存三个数据
+save_as_bin(input_data, "x.bin")
+save_as_bin(gamma_data, "gamma.bin")
+save_as_bin(output_data, "y.bin")
+
+print("All bin files generated!")

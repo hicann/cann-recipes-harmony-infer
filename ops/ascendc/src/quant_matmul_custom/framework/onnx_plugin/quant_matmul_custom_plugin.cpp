@@ -19,6 +19,6 @@ namespace domi {
 // register QuantMatmulCustom op info to GE
 REGISTER_CUSTOM_OP("QuantMatmulCustom")     // Set the registration name of operator
     .FrameworkType(ONNX)   // Operator name with the original framework
-    .OriginOpType("QuantMatmulCustom")      // Set the original frame type of the operator
+    .OriginOpType("ai.onnx::11::QuantMatmulCustom")      // Set the original frame type of the operator
     .ParseParamsByOperatorFn(AutoMappingByOpFn); // Registering the callback function for parsing operator parameters
 }  // namespace domi
