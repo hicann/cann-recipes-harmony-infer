@@ -13,7 +13,6 @@
 # limitations under the License.
 
 #!/bin/bash
-
 set -e
 
 CURRENT_DIR=$(
