@@ -7,26 +7,6 @@ CURRENT_DIR=$(
 ); cd $CURRENT_DIR
 
 declare -A VersionMap
-VersionMap["Ascend910A"]="Ascend910A"
-VersionMap["Ascend910B"]="Ascend910A"
-VersionMap["Ascend910ProA"]="Ascend910A"
-VersionMap["Ascend910ProB"]="Ascend910A"
-VersionMap["Ascend910PremiumA"]="Ascend910A"
-VersionMap["Ascend310B1"]="Ascend310B1"
-VersionMap["Ascend310B2"]="Ascend310B1"
-VersionMap["Ascend310B3"]="Ascend310B1"
-VersionMap["Ascend310B4"]="Ascend310B1"
-VersionMap["Ascend310P1"]="Ascend310P1"
-VersionMap["Ascend310P3"]="Ascend310P1"
-VersionMap["Ascend910B1"]="Ascend910B1"
-VersionMap["Ascend910B2"]="Ascend910B1"
-VersionMap["Ascend910B3"]="Ascend910B1"
-VersionMap["Ascend910B4"]="Ascend910B1"
-# legacy
-VersionMap["ascend910"]="Ascend910A"
-VersionMap["ascend310p"]="Ascend310P1"
-VersionMap["ascend310B1"]="Ascend310B1"
-VersionMap["ascend910B1"]="Ascend910B1"
 #kirin
 VersionMap["KirinX90"]="KirinX90"
 VersionMap["Kirin9030"]="Kirin9030"
@@ -81,10 +61,8 @@ if [[ " ${!VersionMap[*]} " != *" $SOC_VERSION "* ]]; then
 fi
 _SOC_VERSION=${VersionMap[$SOC_VERSION]}
 
-if [ $_SOC_VERSION"x" = "Ascend910Ax" ] || [ $_SOC_VERSION"x" = "Ascend310P1x" ] || [ $_SOC_VERSION"x" = "Ascend310B1x" ] || [ $_SOC_VERSION"x" = "KirinX90x" ] || [ $_SOC_VERSION"x" = "Kirin9030x" ]; then
+if  [ $_SOC_VERSION"x" = "KirinX90x" ] || [ $_SOC_VERSION"x" = "Kirin9030x" ]; then
     CORE_TYPE="AiCore"
-elif [ $_SOC_VERSION"x" = "Ascend910B1x" ]; then
-    CORE_TYPE="VectorCore"
 fi
 
 RUN_MODE_LIST="cpu sim npu"
@@ -92,6 +70,14 @@ if [[ " $RUN_MODE_LIST " != *" $RUN_MODE "* ]]; then
     echo "ERROR: RUN_MODE error, This sample only support specify cpu, sim or npu!"
     exit -1
 fi
+
+
+if [ "${RUN_MODE}" = "cpu" ] && {  [ $_SOC_VERSION"x" = "KirinX90x" ] || [ $_SOC_VERSION"x" = "Kirin9030x" ];}; then
+    echo "Kirin Soc Currently not support cpu!"
+    exit -1
+fi
+
+
 # in case of running op in simulator, use stub so instead
 if [ "${RUN_MODE}" = "sim" ]; then
     export LD_LIBRARY_PATH=$_ASCEND_INSTALL_PATH/x86_64-linux/simulator/${_SOC_VERSION}/lib:$LD_LIBRARY_PATH
@@ -122,7 +108,15 @@ echo "INFO: compile op on ${RUN_MODE} succeed!"
 
 rm -rf input/*.bin output/*.bin
 python3 scripts/gen_data.py
-(export LD_LIBRARY_PATH=${_ASCEND_INSTALL_PATH}/tools/simulator/${_SOC_VERSION}/lib:$LD_LIBRARY_PATH && ./${FILE_NAME}_${RUN_MODE})
+
+if   [ $_SOC_VERSION"x" = "KirinX90x" ] || [ $_SOC_VERSION"x" = "Kirin9030x" ]; then
+#kirin dependent libascendcl already in simulator/${_SOC_VERSION}/lib
+     ./${FILE_NAME}_${RUN_MODE}
+else
+#ascend dependent libascendcl in public dir
+    (export LD_LIBRARY_PATH=${_ASCEND_INSTALL_PATH}/x86_64-linux/lib64:$LD_LIBRARY_PATH && ./${FILE_NAME}_${RUN_MODE})
+fi
+
 if [ $? -ne 0 ]; then
     echo "ERROR: execute op on ${RUN_MODE} failed!"
     exit -1
