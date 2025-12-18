@@ -1,6 +1,12 @@
-# set custom compile options
-if ("${CMAKE_BUILD_TYPE}x" STREQUAL "Debugx")
-    add_ops_compile_options(ALL OPTIONS -g -O0)
-endif()
+npu_op_kernel_sources(ascendc_kernels
+    KERNEL_DIR ./
+)
 
-add_kernels_compile()
+npu_op_kernel_library(ascendc_kernels
+    SRC_BASE ${CMAKE_SOURCE_DIR}/op_kernel/
+    TILING_LIBRARY cust_optiling
+)
+
+npu_op_package_add(${package_name}
+    LIBRARY ascendc_kernels
+)
