@@ -34,11 +34,11 @@
 - 打开样例目录
 
   ```
-  cd $HOME/samples/operator/AddCustomSample/KernelLaunch/AddKernelInvocation
+  cd $HOME/ops/AddKernelInvocation
   ```
 - 配置环境变量
 
-  这里的\$HOME需要替换为CANN包的安装路径。
+  这里的$HOME需要替换为本仓根目录
   ```
   export ASCEND_INSTALL_PATH=$HOME/Ascend/ascend-toolkit/latest
   ```
@@ -48,19 +48,15 @@
   ```
   bash run.sh -r [RUN_MODE] -v  [SOC_VERSION] 
   ```
-  - RUN_MODE：编译方式，可选择CPU调试，NPU仿真，NPU上板。支持参数为[cpu / sim / npu]，默认值为cpu。
-  - SOC_VERSION：昇腾AI处理器型号，如果无法确定具体的[SOC_VERSION]，则在安装昇腾AI处理器的服务器执行npu-smi info命令进行查询，在查询到的“Name”前增加Ascend信息，例如“Name”对应取值为xxxyy，实际配置的[SOC_VERSION]值为Ascendxxxyy。支持以下参数取值（xxx请替换为具体取值）：
-    - Atlas 推理系列产品（Ascend 310P处理器）参数值：Ascend310P1、Ascend310P3
-    - Atlas 训练系列产品参数值：AscendxxxA、AscendxxxB
-    - Atlas A2训练系列产品参数值：AscendxxxB1、AscendxxxB2、AscendxxxB3、AscendxxxB4
-
+  - RUN_MODE：编译方式，可选择CPU调试，NPU仿真，NPU上板。对于Kirin，支持参数为[sim / npu]；
+  - SOC_VERSION：KirinX90 或者 Kirin9030
   注：针对Atlas 训练系列产品使用NPU仿真调试，会存在精度问题，可选择其他芯片进行NPU仿真调试。
 
   示例如下。
   ```
-  bash run.sh -r cpu -v Ascend310P1
+  bash run.sh -r sim -v KirinX90
   ```   
 ## 更新说明
   | 时间 | 更新事项 |
 |----|------|
-| 2023/5/22 | 新增本readme |
+| 2025/12/18 | 新增本readme |
