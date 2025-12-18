@@ -7,8 +7,6 @@ using namespace std;
 namespace optiling {
 static ge::graphStatus TilingFunc(gert::TilingContext* context)
 {
-
-
     RMSNormTilingData rmsNormTilingData;
 
     rmsNormTilingData.set_originM(64);

@@ -45,13 +45,10 @@ public:
         uint64_t onceBatch = fracDimnum==1?batch:dimfrac;
         uint64_t onceBatchL = batch-(fracDimnum-1)*dimfrac;
 
-        AscendC::printf("\n onceDimSize=%d dimfrac=%d fracDimnum=%d onceBatch=%d onceBatchL=%d",onceDimSize,dimfrac,fracDimnum,onceBatch,onceBatchL);
         for(int32_t i=0;i<fracDimnum;i++)
         {
             this->realBatch=(i==fracDimnum-1)?onceBatchL:onceBatch;
             this->outputSize=realBatch*onceDimSize;
-            AscendC::printf("\n index=%d",i);
-            AscendC::printf("\n realBatch=%d outputSize=%d fracDimnum=%d onceBatch=%d onceBatchL=%d",this->realBatch,this->outputSize,fracDimnum,onceBatch,onceBatchL);
             CopyIn(i,this->blockFactor);
             Compute(i,this->blockFactor);
             CopyOut(i,this->blockFactor);
@@ -68,7 +65,6 @@ private:
         DataCopyExtParams dataCopyParamsL(this->realBatch,this->onceDimSize,onceDimSize,0,0);
         DataCopyExtParams dataCopyParamsR(this->realBatch,onceDimSize,onceDimSize,0,0);
         DataCopyPadExtParams<T> padParams(false,0,0,0);
-        AscendC::printf("\n inputStart = %d",this->inputStart);
         
         DataCopyPad(xlLocal,src_global[this->inputStart],dataCopyParamsL,padParams);
         DataCopyPad(xrLocal,src_global[this->inputStart+this->outputDim2],dataCopyParamsR,padParams);
@@ -96,7 +92,6 @@ private:
     {
         LocalTensor<T> yLocal = outQueue.DeQue<T>();
         DataCopyExtParams dataCopyParams(1,this->outputSize,0,0,0);
-        AscendC::printf("\n outputStart = %d outputSize = %d",this->outputStart,this->outputSize);
         //PipeBarrier<PIPE_ALL>();
         DataCopyPad(dst_global[this->outputStart],yLocal,dataCopyParams);
         outQueue.FreeTensor(yLocal);

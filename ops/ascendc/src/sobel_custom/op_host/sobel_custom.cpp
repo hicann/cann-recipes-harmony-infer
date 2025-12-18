@@ -16,8 +16,6 @@ const uint32_t c = 3;
 static ge::graphStatus TilingFunc(gert::TilingContext* context)
 {
     auto totalLength = context->GetInputTensor(0)->GetShapeSize();
-    std::cout << "打印的内容\n";
-    std::cout << "totalLength:" << totalLength << std::endl;
     auto blockLength = totalLength / USE_CORE_NUM;
     auto tileLength = h * w * c ; 
     auto grayLength = h * w; 
@@ -26,8 +24,6 @@ static ge::graphStatus TilingFunc(gert::TilingContext* context)
     const gert::StorageShape* x1_shape = context->GetInputShape(0);
     auto H = x1_shape->GetStorageShape().GetDim(1);
     auto W = x1_shape->GetStorageShape().GetDim(2);
-    std::cout << "Height (H): " << H << std::endl; 
-    std::cout << "Width (W): " << W << std::endl;
    
     int32_t data_sz = 1;
     for (int i = 0; i < x1_shape->GetStorageShape().GetDimNum(); i++)
@@ -58,7 +54,6 @@ static ge::graphStatus InferShape(gert::InferShapeContext* context)
     const gert::Shape* x1_shape = context->GetInputShape(0);
     gert::Shape* y_shape = context->GetOutputShape(0);
 
-    printf("GetStorageFormat:%d\n", context->GetInputTensor(0)->GetStorageFormat());
     int output_height = x1_shape->GetDim(1) - 2; // 减去卷积核的高度减2
     int output_width = x1_shape->GetDim(2) - 2; // 减去卷积核的宽度减2
     
