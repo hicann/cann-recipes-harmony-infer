@@ -39,5 +39,7 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 
 - [贡献指南](./CONTRIBUTION.md)
 - [许可证](./LICENSE)
+
     cann-recipes-harmony-infer仓涉及的模型，如模型目录下存在License的以该License为准。如模型目录下不存在License的，遵循Apache 2.0许可证，对应协议文本可查阅[LICENSE](./LICENSE)
+    
 - [免责声明](./DISCLAIMER.md)
