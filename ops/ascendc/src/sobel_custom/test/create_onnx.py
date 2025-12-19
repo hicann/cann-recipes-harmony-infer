@@ -4,26 +4,26 @@ import onnx
 import os
 import numpy as np
 
-input1_input = helper.maker_tensor_value_info("input1", TensorProto.UINT8, [1, 763, 1024, 3])
+input1 = helper.make_tensor_value_info("input1", TensorProto.UINT8, [1, 763, 1024, 3])
 
-output = helper.maker_tensor_value_info("output1", TensorProto.UINT8, [1, 1, 761, 1023])
+output1 = helper.make_tensor_value_info("output1", TensorProto.UINT8, [1, 1, 761, 1022])
 
 custom_op = onnx.helper.make_node(
     "SobelCustom",
-    name = "SobelCustom",
+    name = "sobelCustom",
     inputs = ['input1'],
     outputs = ['output1'],
 )
 
 graph_def = helper.make_graph(
     [custom_op],
-    "test_model",
-    [input1_input],
-    [output],
+    "test-model",
+    [input1],
+    [output1],
     initializer = [],
 )
 
-model_def = helper.make_model(graph_def, producer_name='onnx_example')
+model_def = helper.make_model(graph_def, producer_name='onnx-example')
 
 model_def.opset_import[0].version = 11
 

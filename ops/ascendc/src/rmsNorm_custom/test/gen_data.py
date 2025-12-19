@@ -20,7 +20,7 @@ mean_squared = input_squared.mean(axis=-1, keepdims=True) #[64,1]
 denominator = np.sqrt(mean_squared + eps) #[64,1]
 
 #归一化并乘以gamma
-output_data = (input_data / denominator) * gamma_shape #[64, 2048]
+output_data = (input_data / denominator) * gamma_data #[64, 2048]
 
 #保存为bin文件（二进制，小端）
 def save_as_bin(data, filename):
