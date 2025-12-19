@@ -8,12 +8,26 @@
 │   │   ├── acl.json            // acl配置文件
 │   │   ├── gen_data.py         // 验证输出数据和针织数据是否一致的验证脚本
 │   │   ├── verify_result.py    // 真值对比文件
-│   │── add_custom.cpp          // 算子kernel实现
+│   │── add_custom.cpp          // 算子kernel实现，暴露给main.cpp调用
 │   │── CMakeLists.txt          // 编译工程文件
 │   │── data_utils.h            // 数据读入写出函数
 │   │── main.cpp                // 主函数，调用算子的应用程序，含CPU域及NPU域调用
 │   ├── run.sh                  // 编译运行算子的脚本
 ``` 
+
+
+## 替换自定义算子
+如果将该样例工程替换为自己的算子实现，需要修改以下内容
+1.add_custom.cpp为核函数实现，整个文件都要替换成新算子实现
+此外，在以下文件中搜索 “迁移算子修改点”
+2.run.sh
+根据实际算子名，修改FILE_NAME属性
+3.scripts/gen_data.py
+需自定义生成输入数据的内容（Shape/数据类型/算子的输入参数数量）
+4.main.cpp
+调用add_custom.cpp中的符号
+读数据的逻辑
+
 ## 代码实现介绍
 本调用样例中实现的是固定shape为8*2048的Add算子。
 - kernel实现   
@@ -56,19 +70,3 @@
   bash run.sh -r sim -v KirinX90
   ```   
 
-## 替换自定义算子
-如果将该样例工程替换为自己的算子实现，需要修改以下内容
-在以下文件中搜索 “迁移算子修改点”
-1.run.sh
-主要修改生成的二进制名
-2.gen_data.py
-需自定义生成输入数据的内容（Shape/数据类型/算子的输入参数数量）
-
-3.add_custom.cpp
-算子实现
-（可选）依赖AscendC API的头文件
-向main.cpp暴露的调用接口
-
-4.main.cpp
-调用add_custom.cpp中的符号
-读数据的逻辑

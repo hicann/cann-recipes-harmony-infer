@@ -704,16 +704,39 @@ msprof工具各字段含义如下：
 |字段名|字段含义 |是否必选   |默认值   |
 |------|------|------|------|
 |op simulator|本场景固定输入，无需更改|是|固定输入|
-|--soc-version|KirinX90 或者 Kirin9030|无默认值，需显式填写|
+|--soc-version|KirinX90 或者 Kirin9030|是|无默认值，需显式填写|
 |--output|性能分析结果的输出目录，该目录及其父目录的写权限不能开放给其他用户|否|当前工作目录|
 |./app|需要分析的算子直调二进制，msprof会运行该二进制并输出性能分析结果，与--export不共存，更推荐使用 ./app|否|无默认值，需显式填写|
-|--export|指定包含单算子仿真性能结果文件夹，直接对该仿真结果进行解析，并通过MindStudio Insight展示单算子单核或多核的指令流水图。；与./app不共存，更推荐使用 ./app|否|无默认值，需显式填写|
+|--export|(不推荐使用)指定包含单算子仿真性能结果文件夹，直接对该仿真结果进行解析，并生成单算子单核或多核的指令流水图。；与./app不共存，更推荐使用 ./app|否|无默认值，需显式填写|
+|--sys-period|系统的采样时长，取值范围大于0，上限为30*24*3600，单位s|暂不支持，用户无需关注|不涉及|
+|--sys-devices|设备ID。可以为all或多个设备ID（以逗号分隔）|暂不支持，用户无需关注|不涉及|
+|--ai-core|控制AI Core、AI Vector Core数据采集的开关，可选on或off，默认值为on。|暂不支持，用户无需关注|不涉及|
+|--aic-mode|AI Core、AI Vector Core硬件的采集类型，可选值task-based或sample-based。该参数配置前提是--ai-core参数设置为on。<br>task-based是以task为粒度进行性能数据采集，sample-based是以固定的时间周期进行性能数据采集。|暂不支持，用户无需关注|不涉及|
+|--aic-freq|sample-based场景下的采样频率，默认值100，范围1~100，单位hz。该参数配置前提是--ai-core参数设置为on。|暂不支持，用户无需关注|不涉及|
+|--aic-metrics|AI Core、AI Vector Core性能指标采集项。该参数配置前提是--ai-core参数设置为on。|暂不支持，用户无需关注|不涉及|
+|--sys-hardware-mem|片上内存读写速率、QoS传输带宽、LLC读写速率/使用量/带宽（建议配合--llc-profiling使用）、Acc PMU数据和SoC传输带宽、组件内存占用等的采集开关，可选on或off，默认为off。<br>采集组件内存数据需要在采集AI任务性能数据（即传入用户程序）时才能采集到具体性能数据。|暂不支持，用户无需关注|不涉及|
+|--sys-hardware-mem-freq|--sys-hardware-mem的采集频率，范围[1,100]，默认值为50，单位hz。<br>设置该参数需要--sys-hardware-mem参数设置为on。|暂不支持，用户无需关注|不涉及|
+|--llc-profiling|LLC Profiling采集事件，需要--sys-hardware-mem设置为on。|暂不支持，用户无需关注|不涉及|
+|--sys-cpu-profiling|CPU（AI CPU、Ctrl CPU、TS CPU）采集开关。可选on或off，默认值为off。|暂不支持，用户无需关注|不涉及|
+|--sys-cpu-freq|CPU采集频率，范围[1,50]，默认值为50，单位hz。<br>设置该参数需要--sys-cpu-profiling参数设置为on。|暂不支持，用户无需关注|不涉及|
+|--sys-profiling|系统CPU usage及System memory采集开关。可选on或off，默认值为off。|暂不支持，用户无需关注|不涉及|
+|--sys-sampling-freq|系统CPU usage及System memory采集频率，范围[1,10]，默认值为10，单位hz。<br>设置该参数需要--sys-profiling参数设置为on。|暂不支持，用户无需关注|不涉及|
+|--sys-pid-profiling|所有进程的CPU usage及所有进程的memory采集开关。可选on或off，默认值为off。|暂不支持，用户无需关注|不涉及|
+|--sys-pid-sampling-freq|所有进程的CPU usage及所有进程的memory采集频率，范围[1,10]，默认值为10，单位hz。|暂不支持，用户无需关注|不涉及|
+|--sys-io-profiling|NIC、ROCE采集开关。可选on或off，默认值为off。|暂不支持，用户无需关注|不涉及|
+|--sys-io-sampling-freq|NIC、ROCE采集频率，范围[1,100]，默认值为100，单位hz。<br>设置该参数需要--sys-io-profiling参数设置为on。|暂不支持，用户无需关注|不涉及|
+|--dvpp-profiling|DVPP采集开关，可选on或off，默认值为off。|暂不支持，用户无需关注|不涉及|
+|--dvpp-freq|DVPP采集频率，范围[1,100]，默认值为50，单位hz。<br>设置该参数需要--dvpp-profiling参数设置为on。|暂不支持，用户无需关注|不涉及|
+|--host-sys|Host侧系统数据采集开关，取值包括cpu、mem、disk、network和osrt，可选其中的一项或多项，选多项时用英文逗号隔开。配置该项必须配置host-sys-pid参数或传入用户程序。|暂不支持，用户无需关注|不涉及|
+|--host-sys-pid|指定需要采集的Host侧应用程序的pid。<br>依赖AI任务运行时该参数无需配置，且配置无效|暂不支持，用户无需关注|不涉及|
+|--host-sys-usage|Host侧系统和所有进程的性能数据采集开关，取值包括cpu和mem，可选其中的一项或多项，选多项时用英文逗号隔开。配置该项时如果配置host-sys-pid参数，则采集Host侧指定进程的CPU或内存利用率。|暂不支持，用户无需关注|不涉及|
+|--host-sys-usage-freq|CPU利用率、内存利用率的采集频率，范围[1,50]，默认值50，单位Hz。|暂不支持，用户无需关注|不涉及|
+|其他参数|其他上述未提及的参数|暂不支持，用户无需关注|不涉及|
+
+**备注**:（不推荐使用）--export选项中，单算子仿真结果文件夹的来源是，在上述**精度校验**步骤中，脚本执行的过程中生成，最后又被删除；如果要保留这个文件夹，请参考ops/ascendc/AddKernelInvocation/run.sh最后一行的注释；该文件夹的位置：如果环境变量配置CAMODEL_LOG_PATH，则使用CAMODEL_LOG_PATH；如果未配置CAMODEL_LOG_PATH，则生成在工作目录下的./sim_log
 
 
-**备注**:--export选项中，单算子仿真结果文件夹的来源是，在上述**精度校验**步骤中，脚本执行的过程中生成，最后又被删除；如果要保留这个文件夹，请参考ops/ascendc/AddKernelInvocation/run.sh最后一行的注释；该文件夹的位置：如果环境变量配置CAMODEL_LOG_PATH，则使用CAMODEL_LOG_PATH；如果未配置CAMODEL_LOG_PATH，则生成在工作目录下的./sim_log
-
---output=是输出流水图的位置
-执行完毕后会有 **Profiling results saved in XXXX**的日志，切换到提示的目录，该目录下 **simulator/trace.json**即指令流水图
+msprof命令执行完毕后会有 **Profiling results saved in XXXX**的日志，切换到提示的目录，该目录下 **simulator/trace.json**即指令流水图
 
 在Chrome浏览器中输入chrome://tracing，将生成的trace.json文件拖到空白处打开，界面会呈现trace图。通过键盘上的快捷键（w：放大，s：缩小，a：左移，d：右移）查看各字段含义如下：
 

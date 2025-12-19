@@ -17,7 +17,7 @@
 #include "data_utils.h"
 #ifndef ASCENDC_CPU_DEBUG
 #include "acl/acl.h"
-// 迁移算子修改点：调用add_custom中的符号
+// 迁移算子修改点：调用核函数实现的符号
 extern void add_custom_do(uint32_t blockDim, void* l2ctrl, void* stream, uint8_t* x, uint8_t* y, uint8_t* z);
 #else
 #include "tikicpulib.h"
