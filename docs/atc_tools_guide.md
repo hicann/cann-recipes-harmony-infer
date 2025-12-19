@@ -1,5 +1,5 @@
 # ATC模型转换指南
-ATC是异构计算架构CANN体系下的模型转换工具，它可以将开源框架的网络模型以及Ascend IR定义的单算子描述文件（JSON格式）转换为昇腾、麒麟AI处理器支持的.om格式离线模型。
+ATC是异构计算架构CANN体系下的模型转换工具，它可以将开源框架的网络模型以及Ascend IR定义的单算子描述文件（JSON格式）转换为昇腾、麒麟AI处理器支持的离线模型格式。
 ##  环境准备
 1. 参见[环境准备](./quick_install.md)进行环境搭建，并确保开发套件Ascend-cann-toolkit安装完成。该场景下ATC工具安装在`${install_path}/cann/bin`目录下；其中，`${install_path}`请替换为CANN软件安装目录，以root安装举例，安装目录为：`/usr/local/Ascend/ascend-toolkit`。
 
