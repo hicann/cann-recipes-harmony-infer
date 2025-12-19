@@ -15,12 +15,8 @@ $FasterGelu(xi) = xi/(1+exp(-1.702*|xi|))*exp(0.851*(xi-|xi|))$
 
 # 支持的产品型号
 本样例支持如下产品型号：
-
-HUAWEI MateBook Pro
-
-HUAWEI MateBook Fold非凡大师
-
-HUAWEI MatePad Edge
+- KirinX90 系列产品
+- Kirin9030 系列产品
 
 # 编译安装执行
 参考[ascendc算子工程编译部署](../src/README.md)
