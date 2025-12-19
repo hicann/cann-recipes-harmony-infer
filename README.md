@@ -11,7 +11,7 @@ cann-recipes-harmony-infer 是面向鸿蒙开发者的技术实践库，基于CA
 |-----|-----|
 |[QuantMatmul](ops/ascendc/docs/custom-npu_quantMatmul.md)在支付宝端侧大模型实践|基于Ascend C实现QuantMatmul自定义量化算子，在Kirin9030设备上高性能部署。
 |[BandNorm](ops/ascendc/docs/custom-npu_bandnorm.md)在QQ音乐声伴分离实践|基于Ascend C实现BandNorm自定义算子，在Kirin9030设备上高性能部署。|
-|[RmsNorm](ops/ascendc/docs/custom-npu_rmsnorm.md)在智谱GLM-Edge-1.5b-Chat大模型实践|基于Ascend C实现RmsNorm算子，在KirinX90设备上高性能部署。|
+|[RmsNorm](ops/ascendc/docs/custom-npu_rmsNorm.md)在智谱GLM-Edge-1.5b-Chat大模型实践|基于Ascend C实现RmsNorm算子，在KirinX90设备上高性能部署。|
 |[SliceGelu](ops/ascendc/docs/custom-npu_slice_gelu.md)在悟空图像SDXL大模型实践|基于Ascend C实现SliceGelu融合算子，在KirinX90设备上高性能部署。|
 |[SobelCustom](ops/ascendc/docs/custom-npu_sobel.md)在边缘检测CV处理实践|基于Ascend C实现Sobel自定义算子，在KirinX90设备上高性能部署。|
 
