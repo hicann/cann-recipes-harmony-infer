@@ -27,10 +27,8 @@ $C$ 为计算输出
 
 # 支持的产品型号
 本样例支持如下产品型号：
-- Mate 70 Pro
-- Mate 70 Pro+
-- Mate 70 Pro RS
-- Mate X6
+- KirinX90 系列产品
+- Kirin9030 系列产品
 
 # 编译安装执行
 参考[ascendc算子工程编译部署](../src/README.md)
