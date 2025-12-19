@@ -4,16 +4,16 @@
 - [2025/12] Ascend C自定义算子在支付宝端侧大模型、QQ音乐声伴分离、智谱GLM-Edge-1.5b-Chat、悟空图像本地闪绘等项目中的实践。
 
 ## 🚀概述
-cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend C高效实现的技术探索，支持在鸿蒙设备和昇腾设备运行。同时提供基于CANN平台的优化样例，方便开发者快速实现端云算子、模型迁移和部署。
+cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供基于CANN平台的优化样例，包括一些基于Ascend C高效实现的技术探索在模型中的应用，方便开发者快速实现端云模型迁移和部署。
 
 ## ✨样例列表
 |实践|解决方案简介|
 |-----|-----|
-|[QuantMatmul](ops/ascendc/docs/custom-npu_quantMatmul.md)在支付宝端侧大模型实践|基于Ascend C实现QuantMatmul自定义量化算子Kirin9030设备上高性能部署。
-|[BandNorm](ops/ascendc/docs/custom-npu_bandnorm.md)在QQ音乐声伴分离实践|基于Ascend C实现BandNorm自定义算子Kirin9030设备上高性能部署。|
-|[RmsNorm](ops/ascendc/docs/custom-npu_rmsnorm.md)在智谱GLM-Edge-1.5b-Chat大模型实践|基于Ascend C实现RmsNorm算子KirinX90设备上高性能部署。|
-|[SliceGelu](ops/ascendc/docs/custom-npu_slice_gelu.md)在悟空图像SDXL大模型实践|基于Ascend C实现SliceGelu融合算子KirinX90设备上高性能部署。|
-|[SobelCustom](ops/ascendc/docs/custom-npu_sobel.md)在边缘检测CV处理实践|基于Ascend C实现Sobel自定义算子KirinX90设备上高性能部署。|
+|[QuantMatmul](ops/ascendc/docs/custom-npu_quantMatmul.md)在支付宝端侧大模型实践|基于Ascend C实现QuantMatmul自定义量化算子，在Kirin9030设备上高性能部署。
+|[BandNorm](ops/ascendc/docs/custom-npu_bandnorm.md)在QQ音乐声伴分离实践|基于Ascend C实现BandNorm自定义算子，在Kirin9030设备上高性能部署。|
+|[RmsNorm](ops/ascendc/docs/custom-npu_rmsnorm.md)在智谱GLM-Edge-1.5b-Chat大模型实践|基于Ascend C实现RmsNorm算子，在KirinX90设备上高性能部署。|
+|[SliceGelu](ops/ascendc/docs/custom-npu_slice_gelu.md)在悟空图像SDXL大模型实践|基于Ascend C实现SliceGelu融合算子，在KirinX90设备上高性能部署。|
+|[SobelCustom](ops/ascendc/docs/custom-npu_sobel.md)在边缘检测CV处理实践|基于Ascend C实现Sobel自定义算子，在KirinX90设备上高性能部署。|
 
 ## 📖目录结构说明
 ```
