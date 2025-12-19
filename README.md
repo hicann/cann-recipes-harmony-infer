@@ -6,7 +6,7 @@
 ## 🚀概述
 cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend C高效实现的技术探索，支持在鸿蒙设备和昇腾设备运行。同时提供基于CANN平台的优化样例，方便开发者快速实现端云算子、模型迁移和部署。
 
-## ✨解决方案列表
+## ✨样例列表
 |实践|解决方案简介|
 |-----|-----|
 |[QuantMatmul](ops/ascendc/docs/custom-npu_quantMatmul.md)在支付宝端侧大模型实践|基于Ascend C实现QuantMatmul自定义量化算子Kirin9030设备上高性能部署。
