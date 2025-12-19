@@ -48,9 +48,8 @@
   ```
   bash run.sh -r [RUN_MODE] -v  [SOC_VERSION] 
   ```
-  - RUN_MODE：编译方式，可选择CPU调试，NPU仿真，NPU上板。对于Kirin，支持参数为[sim / npu]；
-  - SOC_VERSION：KirinX90 或者 Kirin9030
-  注：针对Atlas 训练系列产品使用NPU仿真调试，会存在精度问题，可选择其他芯片进行NPU仿真调试。
+  - RUN_MODE：编译方式，sim（NPU仿真）。
+  - SOC_VERSION：KirinX90 或者 Kirin9030。
 
   示例如下。
   ```
