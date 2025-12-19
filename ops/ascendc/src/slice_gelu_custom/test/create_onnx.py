@@ -4,9 +4,9 @@ import onnx
 import os
 import numpy as np
 
-input1_input = helper.maker_tensor_value_info("input1", TensorProto.FLOAT16, [1, 5, 5120])
+input1 = helper.make_tensor_value_info("input1", TensorProto.FLOAT16, [1, 5, 5120])
 
-output = helper.maker_tensor_value_info("output1", TensorProto.FLOAT16, [1, 5, 2560])
+output1 = helper.make_tensor_value_info("output1", TensorProto.FLOAT16, [1, 5, 2560])
 
 custom_op = onnx.helper.make_node(
     "SliceGeluMul",
@@ -17,13 +17,13 @@ custom_op = onnx.helper.make_node(
 
 graph_def = helper.make_graph(
     [custom_op],
-    "test_model",
-    [input1_input],
-    [output],
+    "test-model",
+    [input1],
+    [output1],
     initializer = [],
 )
 
-model_def = helper.make_model(graph_def, producer_name='onnx_example')
+model_def = helper.make_model(graph_def, producer_name='onnx-example')
 
 model_def.opset_import[0].version = 11
 

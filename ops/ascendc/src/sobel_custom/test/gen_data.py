@@ -1,5 +1,5 @@
 import os
-import plistlib import FMT_BINARY
+from plistlib import FMT_BINARY
 import sys
 import numpy as np
 import json
