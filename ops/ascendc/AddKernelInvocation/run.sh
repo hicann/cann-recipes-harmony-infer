@@ -23,7 +23,7 @@ declare -A VersionMap
 #kirin
 VersionMap["KirinX90"]="KirinX90"
 VersionMap["Kirin9030"]="Kirin9030"
-#迁移算子修改点：这一行控制编译获得的二进制名
+#迁移算子修改点：FILE_NAME控制编译获得的二进制名
 FILE_NAME="add"
 
 SHORT=r:,v:,i:,

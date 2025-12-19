@@ -15,14 +15,14 @@
  */
 
 #include "kernel_operator.h"
-// 迁移算子修改点：可能依赖其他AscendC API
+
 constexpr int32_t TOTAL_LENGTH = 8 * 2048;                            // total length of data
 constexpr int32_t USE_CORE_NUM = 8;                                   // num of core used
 constexpr int32_t BLOCK_LENGTH = TOTAL_LENGTH / USE_CORE_NUM;         // length computed of each core
 constexpr int32_t TILE_NUM = 8;                                       // split data into 8 tiles for each core
 constexpr int32_t BUFFER_NUM = 2;                                     // tensor num for each queue
 constexpr int32_t TILE_LENGTH = BLOCK_LENGTH / TILE_NUM / BUFFER_NUM; // seperate to 2 parts, due to double buffer
-// 迁移算子修改点：核函数实现
+
 class KernelAdd {
 public:
     __aicore__ inline KernelAdd() {}
@@ -88,7 +88,7 @@ extern "C" __global__ __aicore__ void add_custom(GM_ADDR x, GM_ADDR y, GM_ADDR z
     op.Process();
 }
 
-// 迁移算子修改点：向main.cpp暴露的调用接口
+// 向main.cpp暴露的调用接口
 #ifndef ASCENDC_CPU_DEBUG
 // call of kernel function
 void add_custom_do(uint32_t blockDim, void *l2ctrl, void *stream, uint8_t *x, uint8_t *y, uint8_t *z)
