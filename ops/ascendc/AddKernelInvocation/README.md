@@ -55,3 +55,20 @@
   ```
   bash run.sh -r sim -v KirinX90
   ```   
+
+## 替换自定义算子
+如果将该样例工程替换为自己的算子实现，需要修改以下内容
+在以下文件中搜索 “迁移算子修改点”
+1.run.sh
+主要修改生成的二进制名
+2.gen_data.py
+需自定义生成输入数据的内容（Shape/数据类型/算子的输入参数数量）
+
+3.add_custom.cpp
+算子实现
+（可选）依赖AscendC API的头文件
+向main.cpp暴露的调用接口
+
+4.main.cpp
+调用add_custom.cpp中的符号
+读数据的逻辑
