@@ -23,7 +23,7 @@ cann-recipes-harmony-infer仓库旨在为鸿蒙开发者提供一些基于Ascend
 |  ├── README.md
 ├── ops                                         # 算子目录
 |  ├── ascendc
-|  |  ├── KernelInvocationSample                # 算子Kernel执行样例
+|  |  ├── AddKernelInvocation                   # 算子Kernel执行样例
 |  |  ├── docs                                  # 自定义算子文档目录
 |  |  |   ├── custom-xxx.md                     # xxx自定义算子文档
 |  |  |   ├── ...
