@@ -17,6 +17,7 @@
 #include "data_utils.h"
 #ifndef ASCENDC_CPU_DEBUG
 #include "acl/acl.h"
+// 迁移算子修改点：调用add_custom中的符号
 extern void add_custom_do(uint32_t blockDim, void* l2ctrl, void* stream, uint8_t* x, uint8_t* y, uint8_t* z);
 #else
 #include "tikicpulib.h"
@@ -30,6 +31,7 @@ int32_t main(int32_t argc, char* argv[])
     size_t outputByteSize = 8 * 2048 * sizeof(uint16_t);
     
 #ifdef ASCENDC_CPU_DEBUG
+    // Kirin暂不支持该编译分支
     uint8_t* x = (uint8_t*)AscendC::GmAlloc(inputByteSize);
     uint8_t* y = (uint8_t*)AscendC::GmAlloc(inputByteSize);
     uint8_t* z = (uint8_t*)AscendC::GmAlloc(outputByteSize);
@@ -38,7 +40,7 @@ int32_t main(int32_t argc, char* argv[])
     ReadFile("./input/input_y.bin", inputByteSize, y, inputByteSize);
 
     AscendC::SetKernelMode(KernelMode::AIV_MODE);
-    ICPU_RUN_KF(add_custom, blockDim, x, y, z); // use this macro for cpu debug
+    ICPU_RUN_KF(add_custom, blockDim, x, y, z);
 
     WriteFile("./output/output_z.bin", z, outputByteSize);
 
@@ -62,12 +64,14 @@ int32_t main(int32_t argc, char* argv[])
     CHECK_ACL(aclrtMalloc((void**)&yDevice, inputByteSize, ACL_MEM_MALLOC_HUGE_FIRST));
     CHECK_ACL(aclrtMalloc((void**)&zDevice, outputByteSize, ACL_MEM_MALLOC_HUGE_FIRST));
 
+    // 迁移算子修改点：如果要修改直调的算子类型，需结合算子实际输入和gen_data.py修改输入数据
     ReadFile("./input/input_x.bin", inputByteSize, xHost, inputByteSize);
     ReadFile("./input/input_y.bin", inputByteSize, yHost, inputByteSize);
 
     CHECK_ACL(aclrtMemcpy(xDevice, inputByteSize, xHost, inputByteSize, ACL_MEMCPY_HOST_TO_DEVICE));
     CHECK_ACL(aclrtMemcpy(yDevice, inputByteSize, yHost, inputByteSize, ACL_MEMCPY_HOST_TO_DEVICE));
 
+    // 迁移算子修改点：如果要修改直调的算子类型，需修改这行调用，与算子实现的cpp保持一致
     add_custom_do(blockDim, nullptr, stream, xDevice, yDevice, zDevice);
     CHECK_ACL(aclrtSynchronizeStream(stream));
 

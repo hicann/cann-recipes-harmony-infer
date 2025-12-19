@@ -16,6 +16,7 @@
 # Copyright 2022-2023 Huawei Technologies Co., Ltd
 import numpy as np
 
+#迁移算子修改点：对于不同的算子，请自行修改
 def gen_golden_data_simple():
     input_x = np.random.uniform(1, 100, [8, 2048]).astype(np.float16)
     input_y = np.random.uniform(1, 100, [8, 2048]).astype(np.float16)

@@ -23,6 +23,7 @@ declare -A VersionMap
 #kirin
 VersionMap["KirinX90"]="KirinX90"
 VersionMap["Kirin9030"]="Kirin9030"
+#迁移算子修改点：这一行控制编译获得的二进制名
 FILE_NAME="add"
 
 SHORT=r:,v:,i:,
@@ -84,7 +85,7 @@ if [[ " $RUN_MODE_LIST " != *" $RUN_MODE "* ]]; then
     exit -1
 fi
 
-
+#cpu暂不支持
 if [ "${RUN_MODE}" = "cpu" ] && {  [ $_SOC_VERSION"x" = "KirinX90x" ] || [ $_SOC_VERSION"x" = "Kirin9030x" ];}; then
     echo "Kirin Soc Currently not support cpu!"
     exit -1
@@ -126,7 +127,7 @@ if   [ $_SOC_VERSION"x" = "KirinX90x" ] || [ $_SOC_VERSION"x" = "Kirin9030x" ]; 
 #kirin dependent libascendcl already in simulator/${_SOC_VERSION}/lib
      ./${FILE_NAME}_${RUN_MODE}
 else
-#ascend dependent libascendcl in public dir
+#ascend dependent libascendcl in public dir,placeholder
     (export LD_LIBRARY_PATH=${_ASCEND_INSTALL_PATH}/x86_64-linux/lib64:$LD_LIBRARY_PATH && ./${FILE_NAME}_${RUN_MODE})
 fi
 
@@ -137,4 +138,6 @@ fi
 echo "INFO: execute op on ${RUN_MODE} succeed!"
 python3 scripts/verify_result.py output/output_z.bin output/golden.bin
 
+
+#如果要保留仿真性能结果文件夹，请注释删除下面这行；
 rm -rf *log *.vcd
