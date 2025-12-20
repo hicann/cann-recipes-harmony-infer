@@ -23,12 +23,16 @@ cd $CURRENT_DIR
 
 # 导出环境变量
 if [ ! $ASCEND_HOME_PATH ]; then
-    ASCEND_HOME_PATH=/usr/local/Ascend/latest
+    ASCEND_HOME_PATH=/usr/local/Ascend/cann
     source $ASCEND_HOME_PATH/bin/setenv.bash
 fi
 export ASCEND_TENSOR_COMPILER_INCLUDE=$ASCEND_HOME_PATH/compiler/include
 
 function main() {
+    if grep -q "/usr/local/Ascend/latest" "./CMakePresets.json"
+        then
+        sed -i "s#/usr/local/Ascend/cann#$ASCEND_HOME_PATH#g" $(grep "/usr/local/Ascend/cann" -rl ./CMakePresets.json)
+    fi
     # 1. 构建自定义算子包
     rm -rf build_out
     bash build.sh
