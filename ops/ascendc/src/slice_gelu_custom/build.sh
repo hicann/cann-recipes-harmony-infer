@@ -15,6 +15,10 @@
 #!/bin/bash
 set -e
 
+if grep -q "/usr/local/Ascend/cann" "./CMakePresets.json"; then
+    sed -i "s#/usr/local/Ascend/cann#$ASCEND_HOME_PATH#g" $(grep "/usr/local/Ascend/cann" -rl ./CMakePresets.json)
+fi
+
 if [ -z "$BASE_LIBS_PATH" ]; then
   if [ -z "$ASCEND_HOME_PATH" ]; then
     if [ -z "$ASCEND_AICPU_PATH" ]; then
