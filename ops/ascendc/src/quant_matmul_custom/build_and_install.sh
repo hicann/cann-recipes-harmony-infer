@@ -30,7 +30,7 @@ export ASCEND_TENSOR_COMPILER_INCLUDE=$ASCEND_HOME_PATH/compiler/include
 
 function main() {
     if grep -q "/usr/local/Ascend/cann" "./CMakePresets.json"
-        then
+    then
         sed -i "s#/usr/local/Ascend/cann#$ASCEND_HOME_PATH#g" $(grep "/usr/local/Ascend/cann" -rl ./CMakePresets.json)
     fi
     # 1. 构建自定义算子包
