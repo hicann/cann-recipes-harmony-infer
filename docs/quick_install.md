@@ -21,7 +21,7 @@
     # 确保安装包具有可执行权限
     chmod +x Ascend-cann-toolkit_${cann_version}_linux-${arch}-mobile-station.run
     # 安装命令
-    ./Ascend-cann-toolkit_${cann_version}_linux-${arch}-mobile-station.run --full --force --install-path=${install_path}
+    ./Ascend-cann-toolkit_${cann_version}_linux-${arch}-mobile-station.run --full --install-path=${install_path}
     ```
     - \$\{cann\_version\}：表示CANN包版本号。
     - \$\{arch\}：表示CPU架构，如aarch64、x86_64。
