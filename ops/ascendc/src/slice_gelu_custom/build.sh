@@ -15,6 +15,12 @@
 #!/bin/bash
 set -e
 
+if [ ! $ASCEND_HOME_PATH ]; then
+    ASCEND_HOME_PATH=/usr/local/Ascend/cann
+    source $ASCEND_HOME_PATH/bin/setenv.bash
+fi
+export ASCEND_TENSOR_COMPILER_INCLUDE=$ASCEND_HOME_PATH/compiler/include
+
 if grep -q "/usr/local/Ascend/cann" "./CMakePresets.json"; then
     sed -i "s#/usr/local/Ascend/cann#$ASCEND_HOME_PATH#g" $(grep "/usr/local/Ascend/cann" -rl ./CMakePresets.json)
 fi
