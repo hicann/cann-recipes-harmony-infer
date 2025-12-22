@@ -22,8 +22,10 @@ gamma_shape = (2048,)
 
 #生成输入数据（float16）
 input_data = np.random.randn(*input_shape).astype(np.float16)
+input_data = input_data / np.max(np.abs(input_data))
 #生成gamma参数（float16）
 gamma_data = np.random.randn(*gamma_shape).astype(np.float16)
+gamma_data = gamma_data / np.max(np.abs(gamma_data))
 
 #模拟RMSNorm计算
 #RMSNorm：output  = gamma * input / sqrt(mean(input * 2) + eps))
