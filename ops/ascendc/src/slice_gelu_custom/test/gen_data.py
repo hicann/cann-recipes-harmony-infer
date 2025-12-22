@@ -23,7 +23,13 @@ d1: int = 5
 d2: int = 5120
 
 def my_gelu(x):
-    y = x / (1 + np.exp(-1.702 * x))
+    x_value = x.numpy()
+    y_value = []
+    for value0 in x_value:
+        for value1 in value0:
+            for value in value1:
+                y_value.append(value / (1 + math.exp(-1.702 * value)))
+    y = torch.tensor(y_value).reshape(x.shape)
     return y
 class SlicedGELUModel(nn.Module):
     def __init__(self):
