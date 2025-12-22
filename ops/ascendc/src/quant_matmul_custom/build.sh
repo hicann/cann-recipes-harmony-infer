@@ -66,7 +66,6 @@ if [ $? -ne 0 ]; then
     return 1
 fi
 
-# 2. 安装自定义算子包
 cd build_out
 OS_ID=$(cat /etc/os-release | grep "^ID=" | awk -F= '{print $2}')
 OS_ID=$(echo $OS_ID | sed -e 's/^"//' -e 's/"$//')
