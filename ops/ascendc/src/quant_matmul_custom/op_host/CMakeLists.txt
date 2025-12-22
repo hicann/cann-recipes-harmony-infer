@@ -40,6 +40,10 @@ target_compile_options(cust_optiling PRIVATE
     -fvisibility=hidden
 )
 
+target_link_libraries(cust_optiling PRIVATE
+    mmpa
+)
+
 npu_op_package_add(${package_name}
     LIBRARY
         cust_opapi
