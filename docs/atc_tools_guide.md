@@ -18,7 +18,7 @@ atc --model=$HOME/module/resnet50*.onnx --framework=5 --output=$HOME/module/out/
    - --model：Resnet50网络模型文件所在路径。
    - --framework：原始框架类型，5表示ONNX。
    - --output：生成的离线模型路径。
-   - --soc_version：Kirin AI处理器的型号，如kirinx90、kirin9030等。
+   - --soc_version：Kirin AI处理器的型号，如KirinX90、Kirin9030等。
 ### *.air格式的模型文件转换成离线模型
 ```bash
 atc --model=$HOME/module/ResNet50.air --framework=1 --output=$HOME/module/out/ResNet50_air --soc_version=<soc_version>
@@ -26,7 +26,7 @@ atc --model=$HOME/module/ResNet50.air --framework=1 --output=$HOME/module/out/Re
    - --model：*.air格式的模型文件所在路径。
    - --framework：原始框架类型，1表示*.air格式的模型文件。
    - --output：生成的离线模型路径。
-   - --soc_version：Kirin AI处理器的型号，如kirinx90、kirin9030等。
+   - --soc_version：Kirin AI处理器的型号，如KirinX90、Kirin9030等。
 ### 单算子描述文件转换成离线模型
 单算子描述文件是基于Ascend IR定义的单个算子的定义文件，包括算子的输入、输出及属性等信息，借助该文件转换成适配昇腾、麒麟AI处理器的离线模型后，可以验证单算子的功能。详细配置请参考[单算子描述文件配置](https://www.hiascend.com/document/detail/zh/canncommercial/83RC1/devaids/atctool/atlasatc_16_0034.html)。
 ```bash
