@@ -14,8 +14,8 @@ dx[i, j] = A[i+di, j+dj] * Cx[di, dj], di = [-1, 0, 1], dj = [-1, 0, 1]
 
 # 支持的产品型号
 本样例支持如下产品型号：
-- KirinX90 系列产品
-- Kirin9030 系列产品
+- Kirin X90 处理器系列产品
+- Kirin 9030 处理器系列产品
 
 # 编译安装执行
 参考[ascendc算子工程编译部署](../src/README.md)
