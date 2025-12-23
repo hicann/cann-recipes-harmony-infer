@@ -35,6 +35,6 @@ Status ParseParamBandNormMusic(const ge::Operator& op_src, ge::Operator& op_dest
 
 REGISTER_CUSTOM_OP("BandNormMusic")
     .FrameworkType(ONNX)   // type: CAFFE, TENSORFLOW
-    .OriginOpType("BandNormMusic")      // name in tf module
+    .OriginOpType("ai.onnx::11::BandNormMusic")      // name in tf module
     .ParseParamsByOperatorFn(AutoMappingByOpFn);
 }  // namespace domi
