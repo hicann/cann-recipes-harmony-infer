@@ -24,7 +24,7 @@ input2 = helper.make_tensor_value_info("input1", TensorProto.FLOAT16, [2, 121, 4
 output1 = helper.make_tensor_value_info("output1", TensorProto.FLOAT16, [2, 47])
 
 custom_op = onnx.helper.make_node(
-    "bandNormCustom",
+    "BandNormMusic",
     name = "bandNormCustom",
     inputs = ['input1', 'input2'],
     outputs = ['output1'],
@@ -34,7 +34,7 @@ graph_def = helper.make_graph(
     [custom_op],
     "test-model",
     [input1, input2],
-    [output],
+    [output1],
     initializer = [],
 )
 
