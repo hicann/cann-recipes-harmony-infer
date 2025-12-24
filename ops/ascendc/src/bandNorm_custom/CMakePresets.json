@@ -27,7 +27,7 @@
                 },
                 "ASCEND_COMPUTE_UNIT": {
                     "type": "STRING",
-                    "value": "kirinx90"
+                    "value": "kirin9030"
                 },
                 "ENABLE_TEST": {
                     "type": "BOOL",
