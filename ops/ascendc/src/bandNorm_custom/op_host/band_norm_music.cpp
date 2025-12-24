@@ -195,7 +195,7 @@ public:
 
         this->AICore()
             .SetTiling(optiling::TilingFunc);
-        this->AICore().AddConfig("kirin9020");
+        this->AICore().AddConfig("kirin9030");
 
     }
 };
