@@ -33,20 +33,10 @@ static ge::graphStatus TilingFunc(gert::TilingContext* context)
     ge::Shape originSrcShape(shape_vec);
 
     optiling::RmsNormTiling myTiling;
-    AscendC::GetRmsNormTilingInfo(srcShape, originSrcShape, 4, 2, rmsNormTilingData.rmsNormTiling, false);
+    uint32_t maxSize,minSize;
 
-    rmsNormTilingData.rmsNormTiling.set_bLength(1);
-    rmsNormTilingData.rmsNormTiling.set_sLength(1);
-    rmsNormTilingData.rmsNormTiling.set_hLength(2048);
-    rmsNormTilingData.rmsNormTiling.set_originalHLength(2048);
-    rmsNormTilingData.rmsNormTiling.set_reciprocalOfHLength(0.00048828125);
-    rmsNormTilingData.rmsNormTiling.set_mainBshLength(2048);
-    rmsNormTilingData.rmsNormTiling.set_mainBsLength(1);
-    rmsNormTilingData.rmsNormTiling.set_mainBsLengthAlign(1);
-    rmsNormTilingData.rmsNormTiling.set_loopRound(1);
-    rmsNormTilingData.rmsNormTiling.set_tailBshLength(2048);
-    rmsNormTilingData.rmsNormTiling.set_inputTailPos(0);
-    rmsNormTilingData.rmsNormTiling.set_tailBsLength(0);
+    AscendC::GetRmsNormMaxMinTmpSize(srcShape,2,maxSize,minSize,false);
+    AscendC::GetRmsNormTilingInfo(srcShape, originSrcShape, 4, 2, rmsNormTilingData.rmsNormTiling, false);
 
     rmsNormTilingData.tilingDataGm2Ub.set_blockM(64);
     rmsNormTilingData.tilingDataGm2Ub.set_splitM(1);
