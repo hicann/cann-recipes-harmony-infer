@@ -36,7 +36,7 @@ static ge::graphStatus TilingFunc(gert::TilingContext* context)
     uint32_t maxSize,minSize;
 
     AscendC::GetRmsNormMaxMinTmpSize(srcShape,2,maxSize,minSize,false);
-    AscendC::GetRmsNormTilingInfo(srcShape, originSrcShape, 4, 2, rmsNormTilingData.rmsNormTiling, false);
+    AscendC::GetRmsNormTilingInfo(srcShape, originSrcShape, maxSize, 2, rmsNormTilingData.rmsNormTiling, false);
 
     rmsNormTilingData.tilingDataGm2Ub.set_blockM(64);
     rmsNormTilingData.tilingDataGm2Ub.set_splitM(1);
