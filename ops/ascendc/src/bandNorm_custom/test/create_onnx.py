@@ -25,8 +25,8 @@ output1 = helper.make_tensor_value_info("output1", TensorProto.FLOAT16, [2, 47])
 
 custom_op = onnx.helper.make_node(
     "BandNormMusic",
-    name = "bandNormCustom",
-    inputs = ['input1', 'input2'],
+    name = "BandNormMusic",
+    inputs = ['input', 'input1'],
     outputs = ['output1'],
 )
 
