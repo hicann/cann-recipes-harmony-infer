@@ -100,10 +100,8 @@ private:
         antiqShapeInfo = {1, tilingInfo->blockOffsetN, 1, tilingInfo->blockOffsetN};
         uint32_t groupNum = 32;
         uint32_t groupcnt = tilingInfo->blockWeightK / groupNum;
-        // Antiquant内部会读取weight大小，这里需要还原为实际大小
+
         for (int16_t gsid = 0; gsid < groupcnt; gsid++){
-            // perchannel:dst[i, j] = (w[i, j] + offset[gsid, j] * scale[gsid, j])
-            // 每次计算一个[groupsize, N]
             AscendAntiQuant<Antiq_T, B_T, false>(
             localAntiqOut[gsid * groupNum * tilingInfo->blockOffsetN], localAntiqIn.template ReinterpretCast<Antiq_T>()[gsid * groupNum * tilingInfo->blockOffsetN],
                 localAntiqIn[tilingInfo->blockWeight + gsid * tilingInfo->blockOffsetN],
