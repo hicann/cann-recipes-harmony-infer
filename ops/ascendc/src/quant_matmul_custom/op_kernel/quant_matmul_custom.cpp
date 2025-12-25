@@ -175,21 +175,11 @@ extern "C" __global__ __aicore__ void quant_matmul_custom(GM_ADDR a, GM_ADDR b, 
     typedef MatmulType<AscendC::TPosition::GM, CubeFormat::ND, half> biasType;
     static constexpr AntiQuantConfig Antiq_CFG = {AntiQuantMode::INPUT_INTLV};
 
-    if (TILING_KEY_IS(GEMV_A_NORM_B_NORM_2BIT)) {
-//        typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::VECTOR, half> aType;
-//        QuantMatmulCustom<aType, bType, cType, biasType, uint2b_t, Antiq_CFG> op;
-//        op.Init(a, b, c, offset, scale, workspace, tilingData, pipe);
-//        op.Process();
-    } else if (TILING_KEY_IS(GEMV_A_NORM_B_NORM_4BIT)) {
+    if (TILING_KEY_IS(GEMV_A_NORM_B_NORM_4BIT)) {
         typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::VECTOR, half> aType;
         QuantMatmulCustom<aType, bType, cType, biasType, int4b_t, Antiq_CFG> op;
         op.Init(a, b, c, offset, scale, workspace, tilingData, pipe);
         op.Process();
-//    } else if (TILING_KEY_IS(GEMM_A_NORM_B_NORM_2BIT)) {
-//        typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::NZ, half> aType;
-//        QuantMatmulCustom<aType, bType, cType, biasType, uint2b_t, Antiq_CFG> op;
-//        op.Init(a, b, c, offset, scale, workspace, tilingData, pipe);
-//        op.Process();
     } else if (TILING_KEY_IS(GEMM_A_NORM_B_NORM_4BIT)) {
         typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::NZ, half> aType;
         QuantMatmulCustom<aType, bType, cType, biasType, int4b_t, Antiq_CFG> op;
