@@ -78,6 +78,7 @@ uint32_t GetMatMulCommArgs(gert::TilingContext* context, MatMulArgs &commonArgs)
     printf("DoOpTiling GetMatMulCommArgs dimsASize[%ld], dimsBSize[%ld] \n", dimsASize, dimsBSize);
     printf("DoOpTiling GetMatMulCommArgs origM[%lu], origN[%lu], origK[%lu], origBatchA[%lu], origBatchB[%lu]\n", commonArgs.origM, commonArgs.origN, commonArgs.origK, commonArgs.origBatchA, commonArgs.origBatchB);
 
+    printf("weightK[%ld], weightN[%ld] \n", dimsASize, dimsBSize);
     return ge::GRAPH_SUCCESS;
 }
 
@@ -90,6 +91,11 @@ uint32_t GetTilingKey(gert::TilingContext* context, MatMulArgs commonArgs)
 {
     uint32_t bCount = commonArgs.origN * commonArgs.origK;
     uint32_t bSize = context->GetInputTensor(1)->GetSize();
+    if (bSize == 1){
+        auto shapeA = context->GetInputShape(1)->GetStorageShape();
+        int64_t dim = shapeA.GetDim(0);
+        bSize = GetGeDataTypeSize(context->GetInputDesc(1)->GetDataType()) * dim;
+    }
     constexpr uint8_t uint8BitCount = 8;
     uint32_t bitPerNum = bSize * uint8BitCount / bCount;
     printf("try get correct bit per num of B, bSize=%u, bCount=%u\n", bSize, bCount);
@@ -351,15 +357,15 @@ public:
             .ParamType(REQUIRED)
             .DataType({ge::DT_FLOAT16})
             .Format({ge::FORMAT_NCHW});
-        this->Attr("input1_shape").AttrType(OPTIONAL).ListInt({1, 1});
-        this->Attr("transformer_nd").AttrType(OPTIONAL).Bool(true);
+        this->Attr("input1_shape").AttrType(OPTIONAL).ListInt({128, 128});
+        this->Attr("transformer_nd").AttrType(OPTIONAL).Bool(false);
 
         this->SetInferShape(ge::InferShape);
         this->SetInferDataType(ge::InferDataType);
 
         this->AICore()
             .SetTiling(optiling::TilingFunc);
-        this->AICore().AddConfig("kirin9030");
+        this->AICore().AddConfig("kirin9020");
 
     }
 };

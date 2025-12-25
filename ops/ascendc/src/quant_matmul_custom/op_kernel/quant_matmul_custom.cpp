@@ -17,7 +17,7 @@
 #include "lib/matmul/matmul.h"
 #include "lib/quantization/ascend_antiquant.h"
 
-using namespace matmul_asc;
+using namespace AscendC;
 
 template<class aType, class bType, class cType, class biasType, typename Antiq_T, const AntiQuantConfig& Antiq_CFG>
 class QuantMatmulCustom {
@@ -30,22 +30,22 @@ public:
 
         //结构体初始化
         //Copy A GM->L1 & ND2NZ
-        gm2l1Params.SetNdNum(1);
-        gm2l1Params.SetNValue(tilingInfo->blockM);
-        gm2l1Params.SetDValue(tilingInfo->blockKa);
-        gm2l1Params.SetSrcDValue(tilingInfo->blockKa);
-        gm2l1Params.SetDstNzC0Stride(tilingInfo->blockM);
-        gm2l1Params.SetDstNzNStride(1);
+        gm2l1Params.ndNum = 1;
+        gm2l1Params.nValue = tilingInfo->blockM;
+        gm2l1Params.dValue = tilingInfo->blockKa;
+        gm2l1Params.srcDValue = tilingInfo->blockKa;
+        gm2l1Params.dstNzC0Stride = tilingInfo->blockM;
+        gm2l1Params.dstNzNStride = 1;
         //Antiq
         antiqShapeInfo = {tilingInfo->blockOffsetK, tilingInfo->blockOffsetN,
             tilingInfo->blockOffsetK, tilingInfo->blockOffsetN};
         // Copy B UB->L1 & ND2NZ
-        ub2l1Params.SetNdNum(1);
-        ub2l1Params.SetNValue(tilingInfo->blockKb);
-        ub2l1Params.SetDValue(tilingInfo->blockN);
-        ub2l1Params.SetSrcDValue(tilingInfo->blockN);
-        ub2l1Params.SetDstNzC0Stride(tilingInfo->blockKb);
-        ub2l1Params.SetDstNzNStride(1);
+        ub2l1Params.ndNum = 1;
+        ub2l1Params.nValue = tilingInfo->blockb;
+        ub2l1Params.dValue = tilingInfo->blockN;
+        ub2l1Params.srcDValue = tilingInfo->blockN;
+        ub2l1Params.dstNzC0Stride = tilingInfo->blockKb;
+        ub2l1Params.dstNzNStride = 1;
 
         globalA.SetGlobalBuffer((__gm__ A_T*)(a), tiling.cubeTilingData.M * tiling.cubeTilingData.Ka);
         globalB.SetGlobalBuffer((__gm__ B_T*)(b), tilingInfo->weightK * tilingInfo->weightN);
@@ -84,28 +84,31 @@ private:
     {
         // step1: copy b/scale/offset gm -> ub
         LocalTensor<B_T> localAntiqIn = queAntiqIn.AllocTensor<B_T>();
-        DataCopy(localAntiqIn,
-            globalB[subN * tilingInfo->blockWeightN * tilingInfo->weightK + subK * tilingInfo->blockWeight],
-            tilingInfo->blockWeight);
-        DataCopy(localAntiqIn[tilingInfo->blockWeight],
-            globalOffset[subN * tilingInfo->blockN * tilingInfo->offsetK + subK * tilingInfo->blockOffset],
-            tilingInfo->blockOffset);
-        DataCopy(localAntiqIn[tilingInfo->blockWeightAndOffset],
-            globalScale[subN * tilingInfo->blockN * tilingInfo->offsetK + subK * tilingInfo->blockOffset],
-            tilingInfo->blockOffset);
+        uint16_block_size = 32;
+        DataCopyParams weight_copyParams {(uint16_t)tilingInfo->blockWeightK, (uint16_t)(tilingInfo->blockWeightN * sizeof(B_T) / block_size), (uint16_t)((tilingInfo->weightN - tilingInfo->blockWeightN) * sizeof(B_T) / block_size), 0};
+        DataCopyParams offset_copyParams {(uint16_t)tilingInfo->blockOffsetK, (uint16_t)(tilingInfo->blockN * sizeof(B_T) / block_size), (uint16_t)((tilingInfo->offsetN - tilingInfo->blockN) * sizeof(B_T) / block_size), 0};
+        DataCopy(localAntiqIn,globalB[subN * tilingInfo->blockWeightN + subK * tilingInfo->weightN * tilingInfo->blockWeightK],weight_copyParams);
+        DataCopy(localAntiqIn[tilingInfo->blockWeight],globalOffset[subN * tilingInfo->blockN + subK * tilingInfo->offsetN * tilingInfo->blockOffsetK],offset_copyParams);
+        DataCopy(localAntiqIn[tilingInfo->blockWeightAndOffset],globalScale[subN * tilingInfo->blockN + subK * tilingInfo->offsetN * tilingInfo->blockOffsetK],offset_copyParams);
         queAntiqIn.EnQue(localAntiqIn);
 
         // step2: antiq compute
         LocalTensor<B_T> localAntiqOut = queAntiqOut.AllocTensor<B_T>();
         localAntiqIn = queAntiqIn.DeQue<B_T>();
 
-        // Antiquant内部会读取weight大小，这里需要还原为实际大小
         localAntiqIn.SetSize(tilingInfo->blockWeight);
-        AscendAntiQuant<Antiq_T, B_T, false, Antiq_CFG>(
-            localAntiqOut, localAntiqIn.template ReinterpretCast<Antiq_T>(),
-            localAntiqIn[tilingInfo->blockWeight], localAntiqIn[tilingInfo->blockWeightAndOffset],
-            static_cast<uint32_t>(tilingInfo->blockKb), antiqShapeInfo);
-
+        antiqShapeInfo = {1, tilingInfo->blockOffsetN, 1, tilingInfo->blockOffsetN};
+        uint32_t groupNum = 32;
+        uint32_t groupcnt = tilingInfo->blockWeightK / groupNum;
+        // Antiquant内部会读取weight大小，这里需要还原为实际大小
+        for (int16_t gsid = 0; gsid < groupcnt; gsid++){
+            // perchannel:dst[i, j] = (w[i, j] + offset[gsid, j] * scale[gsid, j])
+            // 每次计算一个[groupsize, N]
+            AscendAntiQuant<Antiq_T, B_T, false>(
+            localAntiqOut[gsid * groupNum * tilingInfo->blockOffsetN], localAntiqIn.template ReinterpretCast<Antiq_T>()[gsid * groupNum * tilingInfo->blockOffsetN],
+                localAntiqIn[tilingInfo->blockWeight + gsid * tilingInfo->blockOffsetN],
+                localAntiqIn[tilingInfo->blockWeightAndOffset + gsid * tilingInfo->blockOffsetN],groupNum, antiqShapeInfo);
+        }
         queAntiqOut.EnQue(localAntiqOut);
         queAntiqIn.FreeTensor(localAntiqIn);
 
@@ -173,20 +176,20 @@ extern "C" __global__ __aicore__ void quant_matmul_custom(GM_ADDR a, GM_ADDR b, 
     static constexpr AntiQuantConfig Antiq_CFG = {AntiQuantMode::INPUT_INTLV};
 
     if (TILING_KEY_IS(GEMV_A_NORM_B_NORM_2BIT)) {
-        typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::VECTOR, half> aType;
-        QuantMatmulCustom<aType, bType, cType, biasType, uint2b_t, Antiq_CFG> op;
-        op.Init(a, b, c, offset, scale, workspace, tilingData, pipe);
-        op.Process();
+//        typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::VECTOR, half> aType;
+//        QuantMatmulCustom<aType, bType, cType, biasType, uint2b_t, Antiq_CFG> op;
+//        op.Init(a, b, c, offset, scale, workspace, tilingData, pipe);
+//        op.Process();
     } else if (TILING_KEY_IS(GEMV_A_NORM_B_NORM_4BIT)) {
         typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::VECTOR, half> aType;
         QuantMatmulCustom<aType, bType, cType, biasType, int4b_t, Antiq_CFG> op;
         op.Init(a, b, c, offset, scale, workspace, tilingData, pipe);
         op.Process();
-    } else if (TILING_KEY_IS(GEMM_A_NORM_B_NORM_2BIT)) {
-        typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::NZ, half> aType;
-        QuantMatmulCustom<aType, bType, cType, biasType, uint2b_t, Antiq_CFG> op;
-        op.Init(a, b, c, offset, scale, workspace, tilingData, pipe);
-        op.Process();
+//    } else if (TILING_KEY_IS(GEMM_A_NORM_B_NORM_2BIT)) {
+//        typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::NZ, half> aType;
+//        QuantMatmulCustom<aType, bType, cType, biasType, uint2b_t, Antiq_CFG> op;
+//        op.Init(a, b, c, offset, scale, workspace, tilingData, pipe);
+//        op.Process();
     } else if (TILING_KEY_IS(GEMM_A_NORM_B_NORM_4BIT)) {
         typedef MatmulType<AscendC::TPosition::TSCM, CubeFormat::NZ, half> aType;
         QuantMatmulCustom<aType, bType, cType, biasType, int4b_t, Antiq_CFG> op;

@@ -17,8 +17,8 @@
 #define QUANT_MATMUL_CUSTOM_TILING_H
 
 #include "register/tilingdata_base.h"
-#include "lib/matmul/matmul_tilingdata.h"
-#include "lib/matmul/bmm_tiling.h"
+#include "tiling/matmul/matmul_tilingdata.h"
+#include "tiling/matmul/bmm_tiling.h"
 #include "tiling/platform/platform_ascendc.h"
 #include "register/op_def_registry.h"
 
