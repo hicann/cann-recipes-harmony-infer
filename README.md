@@ -1,7 +1,7 @@
 # cann-recipes-harmony-infer
 
 ## 🔥Latest News
-- [2025/12] Ascend C自定义算子在支付宝端侧大模型、QQ音乐声伴分离、智谱GLM-Edge-1.5b-Chat、悟空图像本地闪绘等项目中的实践。
+- [2025/12] cann-recipes-harmony-infer项目首次上线。包含Ascend C自定义算子在支付宝端侧大模型、QQ音乐声伴分离、智谱GLM-Edge-1.5b-Chat、悟空图像本地闪绘等项目中的实践。
 
 ## 🚀概述
 cann-recipes-harmony-infer 是面向鸿蒙开发者的技术实践库，基于CANN 平台提供典型业务实践案例，包括Ascend C 自定义算子开发实践，助力开发者高效实现端云协同迁移、经验复用与端侧推理部署。
