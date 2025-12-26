@@ -41,7 +41,7 @@ public:
             tilingInfo->blockOffsetK, tilingInfo->blockOffsetN};
         // Copy B UB->L1 & ND2NZ
         ub2l1Params.ndNum = 1;
-        ub2l1Params.nValue = tilingInfo->blockb;
+        ub2l1Params.nValue = tilingInfo->blockKb;
         ub2l1Params.dValue = tilingInfo->blockN;
         ub2l1Params.srcDValue = tilingInfo->blockN;
         ub2l1Params.dstNzC0Stride = tilingInfo->blockKb;

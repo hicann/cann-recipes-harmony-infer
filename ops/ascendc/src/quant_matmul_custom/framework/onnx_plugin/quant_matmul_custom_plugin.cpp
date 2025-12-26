@@ -13,8 +13,27 @@ rights reserved.
  */
 
 #include "register/register.h"
+#include ""
 
 namespace domi {
+// Onnx ParseParams
+Status ParseParamQuantMatmul(const ge::Operator& op_src, ge::Operator& op_dest) {
+    // To do: Implement the operator plugin by referring to the Onnx Operator Development Guide.
+     ge::AscendString attrs_string;
+     if (ge::GRAPH_SUCCESS == op_src.GetAttr("attribute", attrs_string)) {
+         nlohmann::json attrs = nlohmann::json::parse(attrs_string.GetString());
+         for (nlohmann::json attr : attrs["attribute"]) {
+             if (attr["name"] == "input1_shape" && attr["type"] == 7) {
+                 std::vector<int64_t> attrvalue;
+                 for (auto value : attr["ints"]) {
+                     attrvalue.push_back(value);
+                 }
+                 op_dest.SetAttr("input1_shape", attrvalue);
+             }
+         }
+     }
+    return SUCCESS;
+}
 
 // register QuantMatmulCustom op info to GE
 REGISTER_CUSTOM_OP("QuantMatmulCustom")     // Set the registration name of operator

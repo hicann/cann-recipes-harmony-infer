@@ -9,3 +9,33 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mindspore")
         add_subdirectory(onnx_plugin)
     endif()
 endif()
+include_directories(./)
+
+set(JSON_VERSION "3.11.3")
+set(JSON_URL "https://github.com/nlohmann/json/releases/download/v${JSON_VERSION}/json.hpp")
+
+set(JSON_DEST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/framework/nlohmann")
+set(JSON_DEST_FILE "${JSON_DEST_DIR}/json.hpp")
+
+file(MAKE_DIRECTORY ${JSON_DEST_DIR})
+
+if(NOT EXISTS "${JSON_DEST_FILE}")
+    messgae(STATUS "正在下载 nlohmann/json v${JSON_VERSION} ...")
+    message(STATUS "源地址：${JSON_URL}")
+
+    file(DOWNLOAD
+        ${JSON_URL}
+        ${JSON_DEST_FILE}
+        EXPECTED_HASH SHA256=9cca9c0997e3a9c7b8cb214f4e70e9c855a807f45b73f8a09f3e4c414605963f
+        SHOW_PROGRESS
+        STATUS DOWNLOAD_STATUS
+    )
+
+    list(GET DOWNLOAD_STATUS 0 STATUS_CODE)
+    list(GET DOWNLOAD_STATUS 1 STATUS_MSG)
+    if (NOT STATUS_CODE EQUAL 0)
+        message(FATAL_ERROR "下载失败：${STATUS_MSG}")
+    else()
+        message(STATUS "下载成功：${JSON_DEST_FILE}")
+    endif()
+endif()

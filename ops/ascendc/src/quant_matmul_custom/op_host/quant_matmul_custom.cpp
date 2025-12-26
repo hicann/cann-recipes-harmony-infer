@@ -357,7 +357,7 @@ public:
             .ParamType(REQUIRED)
             .DataType({ge::DT_FLOAT16})
             .Format({ge::FORMAT_NCHW});
-        this->Attr("input1_shape").AttrType(OPTIONAL).ListInt({128, 128});
+        this->Attr("input1_shape").AttrType(OPTIONAL).ListInt({1, 1});
         this->Attr("transformer_nd").AttrType(OPTIONAL).Bool(false);
 
         this->SetInferShape(ge::InferShape);
