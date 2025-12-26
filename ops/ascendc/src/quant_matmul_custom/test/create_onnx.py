@@ -32,6 +32,7 @@ custom_op = onnx.helper.make_node(
     name = "QuantMatmulCustom",
     inputs = ['A', 'B', 'P2', 'P3'],
     outputs = ['Y'],
+    input1_shape = [1280, 151936],
 )
 
 graph_def = helper.make_graph(
