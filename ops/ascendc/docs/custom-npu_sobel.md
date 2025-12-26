@@ -18,4 +18,6 @@ dx[i, j] = A[i+di, j+dj] * Cx[di, dj], di = [-1, 0, 1], dj = [-1, 0, 1]
 - Kirin 9030 处理器系列产品
 
 # 编译安装执行
-参考[ascendc算子工程编译部署](../src/README.md)
+算子编译安装请参考[ascendc算子工程编译部署](../src/README.md)。
+
+模型端到端部署请参考[sobel鸿蒙应用部署](../../../harmony_infer/harmony_os_next/Soble/readme_cn.md)。
