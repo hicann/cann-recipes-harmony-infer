@@ -15,7 +15,7 @@
 
 1. **安装鸿蒙社区版CANN开发套件包**
    
-   下载对应`Ascend-cann-toolkit_${cann_version}_linux-${arch}-mobile-station.run`包，下载链接为[toolkit x86_64包](https://ascend-cann.obs.cn-north-4.myhuaweicloud.com/CANN/community/ops/Ascend-cann-toolkit_8.5.0.alpha001_linux-x86_64.run)。
+   下载对应`Ascend-cann-toolkit_${cann_version}_linux-${arch}-mobile-station.run`包，下载链接为[toolkit x86_64包](https://kiri-obs.obs.cn-north-4.myhuaweicloud.com/Cann%20Large%20Model%20Foundation%208.5.0.alpha005/Ascend-cann-toolkit_8.5.0_linux-x86_64-mobile-station.run)。
     
     ```bash
     # 确保安装包具有可执行权限
