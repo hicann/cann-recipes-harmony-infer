@@ -84,7 +84,7 @@ private:
     {
         // step1: copy b/scale/offset gm -> ub
         LocalTensor<B_T> localAntiqIn = queAntiqIn.AllocTensor<B_T>();
-        uint16_block_size = 32;
+        uint16_t block_size = 32;
         DataCopyParams weight_copyParams {(uint16_t)tilingInfo->blockWeightK, (uint16_t)(tilingInfo->blockWeightN * sizeof(B_T) / block_size), (uint16_t)((tilingInfo->weightN - tilingInfo->blockWeightN) * sizeof(B_T) / block_size), 0};
         DataCopyParams offset_copyParams {(uint16_t)tilingInfo->blockOffsetK, (uint16_t)(tilingInfo->blockN * sizeof(B_T) / block_size), (uint16_t)((tilingInfo->offsetN - tilingInfo->blockN) * sizeof(B_T) / block_size), 0};
         DataCopy(localAntiqIn,globalB[subN * tilingInfo->blockWeightN + subK * tilingInfo->weightN * tilingInfo->blockWeightK],weight_copyParams);
