@@ -20,7 +20,7 @@ set(JSON_DEST_FILE "${JSON_DEST_DIR}/json.hpp")
 file(MAKE_DIRECTORY ${JSON_DEST_DIR})
 
 if(NOT EXISTS "${JSON_DEST_FILE}")
-    messgae(STATUS "正在下载 nlohmann/json v${JSON_VERSION} ...")
+    message(STATUS "正在下载 nlohmann/json v${JSON_VERSION} ...")
     message(STATUS "源地址：${JSON_URL}")
 
     file(DOWNLOAD
