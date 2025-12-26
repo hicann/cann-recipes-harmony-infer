@@ -56,7 +56,7 @@ def dequantize_weight_group32(weight_flat_fp16, scale_fp16, offset_fp16, K, N, g
     assert weight_flat_fp16.dtype == np.float16
     assert scale_fp16.dtype == np.float16
     assert offset_fp16.dtype == np.float16
-    assert total * group_size == 0, "K*N必须能被group_size整除"
+    assert total % group_size == 0, "K*N必须能被group_size整除"
     assert scale_fp16.size == total // group_size
     assert offset_fp16.size == total // group_size
     assert weight_flat_fp16.size == total
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     np.random.seed(42)
     inputA = np.random.rand(M, K).astype(np.float16)
 
-    int_data = np.random.randit(-8, 8, size=(K, N))
+    int_data = np.random.randint(-8, 8, size=(K, N))
 
     weight_flat = int_data.astype(np.float16)
 
