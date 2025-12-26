@@ -15,7 +15,7 @@ from onnx import helper
 from onnx import AttributeProto, TensorProto, GraphProto
 import onnx
 import os
-import numpy
+import numpy as np
 
 A = helper.make_tensor_value_info("A", TensorProto.FLOAT16, [1, 128])
 
