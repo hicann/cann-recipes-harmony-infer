@@ -9,7 +9,7 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mindspore")
         add_subdirectory(onnx_plugin)
     endif()
 endif()
-include_directories(./)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/)
 
 set(JSON_VERSION "3.11.3")
 set(JSON_URL "https://github.com/nlohmann/json/releases/download/v${JSON_VERSION}/json.hpp")
