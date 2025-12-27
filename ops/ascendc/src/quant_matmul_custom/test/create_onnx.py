@@ -17,15 +17,15 @@ import onnx
 import os
 import numpy as np
 
-A = helper.make_tensor_value_info("A", TensorProto.FLOAT16, [1, 128])
+A = helper.make_tensor_value_info("A", TensorProto.FLOAT16, [1, 1280])
 
-B = helper.make_tensor_value_info("B", TensorProto.UINT8, [16384])
+B = helper.make_tensor_value_info("B", TensorProto.UINT8, [97239040])
 
-P2 = helper.make_tensor_value_info("P2", TensorProto.FLOAT16, [1024])
+P2 = helper.make_tensor_value_info("P2", TensorProto.FLOAT16, [6077440])
 
-P3 = helper.make_tensor_value_info("P3", TensorProto.FLOAT16, [1024])
+P3 = helper.make_tensor_value_info("P3", TensorProto.FLOAT16, [6077440])
 
-Y = helper.make_tensor_value_info("Y", TensorProto.FLOAT16, [1, 256])
+Y = helper.make_tensor_value_info("Y", TensorProto.FLOAT16, [1, 151936])
 
 custom_op = onnx.helper.make_node(
     "QuantMatmulCustom",

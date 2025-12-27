@@ -111,9 +111,9 @@ if __name__ == "__main__":
     print("match:", np.all(unpacked[:weight_flat.size] == weight_flat.astype(np.int8).ravel()))
 
     weight = packed_uint8
-    inputA.tofile("./data/inputA.bin")
-    weight.tofile("./data/weight.bin")
-    scale.tofile("./data/scale.bin")
-    offset.tofile("./data/offset.bin")
-    out.tofile("./data/output.bin")
+    inputA.tofile("./inputA.bin")
+    weight.tofile("./weight.bin")
+    scale.tofile("./scale.bin")
+    offset.tofile("./offset.bin")
+    out.tofile("./output.bin")
 

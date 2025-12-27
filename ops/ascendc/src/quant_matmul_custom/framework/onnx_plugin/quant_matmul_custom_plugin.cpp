@@ -39,5 +39,5 @@ Status ParseParamQuantMatmul(const ge::Operator& op_src, ge::Operator& op_dest) 
 REGISTER_CUSTOM_OP("QuantMatmulCustom")     // Set the registration name of operator
     .FrameworkType(ONNX)   // Operator name with the original framework
     .OriginOpType("ai.onnx::11::QuantMatmulCustom")      // Set the original frame type of the operator
-    .ParseParamsByOperatorFn(AutoMappingByOpFn); // Registering the callback function for parsing operator parameters
+    .ParseParamsByOperatorFn(ParseParamQuantMatmul); // Registering the callback function for parsing operator parameters
 }  // namespace domi
