@@ -13,7 +13,7 @@ rights reserved.
  */
 
 #include "register/register.h"
-#include "nlohmann/json.hpp"
+#include "json.hpp"
 
 namespace domi {
 // Onnx ParseParams
