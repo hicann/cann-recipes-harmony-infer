@@ -14,7 +14,7 @@ include_directories(./)
 set(JSON_VERSION "3.11.3")
 set(JSON_URL "https://github.com/nlohmann/json/releases/download/v${JSON_VERSION}/json.hpp")
 
-set(JSON_DEST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/framework/nlohmann")
+set(JSON_DEST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nlohmann")
 set(JSON_DEST_FILE "${JSON_DEST_DIR}/json.hpp")
 
 file(MAKE_DIRECTORY ${JSON_DEST_DIR})
