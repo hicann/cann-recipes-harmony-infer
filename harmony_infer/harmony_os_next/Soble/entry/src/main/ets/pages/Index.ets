@@ -140,18 +140,9 @@ struct Index {
           bottom : 20
         })
       }.height('100%')
+    }.height('100%').layoutWeight(2)
 
-        Text(this.processMessage)
-          .textAlign(TextAlign.Center)
-          .fontSize(17)
-          .fontColor(0xFF69B4)
-          .padding('2%')
-          .width('100%')
-          .height('5%')
-          .backgroundColor(Color.White)
-        }.height('100%').layoutWeight(2)
-
-        Column() {
+    Column() {
           Button('CPU推理')
             .enabled(this.inferenceEnable)
             .onClick(() => {
@@ -327,8 +318,17 @@ struct Index {
               this.pixelMap = null
             })
             .margin(15)
+
+          Text(this.processMessage)
+          .textAlign(TextAlign.Center)
+          .fontSize(17)
+          .fontColor(0xFF69B4)
+          .padding('2%')
+          .width('100%')
+          .height('5%')
+          .backgroundColor(Color.White)
         }.height('match_parent').layoutWeight(1)
       }.width('match_parent').height('match_parenet')
-  }
+    }
 }
 
