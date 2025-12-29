@@ -36,6 +36,6 @@ Status ParseParamAddCustom(const ge::Operator& op_src, ge::Operator& op_dest) {
 // OriginOpType为ONNX中算子的类型，可以不与REGISTER_CUSTOM_OP中的类型相同。
 REGISTER_CUSTOM_OP("AddCustom")     // Set the registration name of operator
     .FrameworkType(ONNX)   // Operator name with the original framework
-    .OriginOpType("ai::onnx::11::AddCustom")      // Set the original frame type of the operator
+    .OriginOpType("ai.onnx::11::AddCustom")      // Set the original frame type of the operator
     .ParseParamsByOperatorFn(ParseParamAddCustom); // Registering the callback function for parsing operator parameters
 }  // namespace domi

@@ -14,9 +14,9 @@ def create_model():
         bias = 1
     )
 
-    input1_input = helper.make_tensor_value_info("input1", TensorProto.FLOAT, [8, 2048])
-    input2_input = helper.make_tensor_value_info("input2", TensorProto.FLOAT, [8, 2048])
-    add_output = helper.make_tensor_value_info('output', TensorProto.FLOAT, [8, 2048])
+    input1_input = helper.make_tensor_value_info("input1", TensorProto.FLOAT16, [8, 2048])
+    input2_input = helper.make_tensor_value_info("input2", TensorProto.FLOAT16, [8, 2048])
+    add_output = helper.make_tensor_value_info('output', TensorProto.FLOAT16, [8, 2048])
 
     graph = helper.make_graph(
         nodes = [AddCustom],
