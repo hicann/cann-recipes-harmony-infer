@@ -10,6 +10,7 @@ if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mindspore")
     endif()
 endif()
 
+set(CMAKE_TLS_VERIFY OFF)
 set(JSON_VERSION "3.11.3")
 set(JSON_URL "https://github.com/nlohmann/json/releases/download/v${JSON_VERSION}/json.hpp")
 
@@ -25,7 +26,7 @@ if(NOT EXISTS "${JSON_DEST_FILE}")
     file(DOWNLOAD
         ${JSON_URL}
         ${JSON_DEST_FILE}
-        EXPECTED_HASH SHA256=9cca9c0997e3a9c7b8cb214f4e70e9c855a807f45b73f8a09f3e4c414605963f
+        EXPECTED_HASH SHA256=9bea4c8066ef4a1c206b2be5a36302f8926f7fdc6087af5d20b417d0cf103ea6
         SHOW_PROGRESS
         STATUS DOWNLOAD_STATUS
     )
