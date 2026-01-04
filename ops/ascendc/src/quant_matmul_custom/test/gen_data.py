@@ -36,7 +36,6 @@ def unpack_uint8_to_int4(packed: np.ndarray) -> np.ndarray:
     out[1::2] = high_s
     return out
 
-
 def dequantize_weight_group32(weight_flat_fp16, scale_fp16, offset_fp16, K, N, group_size=32):
 
     total = K * N
@@ -74,7 +73,7 @@ def matmul_input_weight_dequant(
     return out_f32.astype(np.float16)
 
 if __name__ == "__main__":
-    M, K, N = 1, 128, 256
+    M, K, N = 1, 1280, 151936
     group_size =32
     assert (K * N) % group_size == 0
     np.random.seed(42)
@@ -86,9 +85,6 @@ if __name__ == "__main__":
 
     scale = np.random.rand((K*N)//group_size,).astype(np.float16) * 0.01
     offset = np.ones((K*N)//group_size,).astype(np.float16)
-
-
-
 
     out = matmul_input_weight_dequant(inputA, weight_flat, scale, offset, group_size)
 
@@ -103,4 +99,3 @@ if __name__ == "__main__":
     scale.tofile("./scale.bin")
     offset.tofile("./offset.bin")
     out.tofile("./output.bin")
-
