@@ -606,7 +606,7 @@ if (shape_tensor->GetDataType() == ge::DT_INT32) {
 
 | 使用场景 | 操作指引 | 说明 |
 | -------- | -------- | -------- |
-| AscendC算子调测工具是什么 | [调测工具简介](#调测功能介绍) | 阐述了工具的基本概念、关键调测功能、调测方式和流程等，帮助开发者快速了解和使用工具。 |
+| AscendC算子调测工具是什么 | [调测工具简介](#NPU仿真模式下的精度校验与性能采集分析) | 阐述了工具的基本概念、关键调测功能、调测方式和流程等，帮助开发者快速了解和使用工具。 |
 | 算子调测过程中涉及哪些配置和调测功能 | [数据准备与配置说明](#数据准备和配置说明) | 阐述命令行方式下算子调测需要的**输入/标杆数据**、**算子信息json文件配置**等。 |
 
 
@@ -682,7 +682,7 @@ def gen_data_simple():
     可以参考ops/ascendc/AddKernelInvocation/scripts/gen_data.py
 
 
-## NPU仿真模式下的精度校验、性能采集与分析
+## NPU仿真模式下的精度校验与性能采集分析
 基于NPU域算子的调用接口编写的算子程序，通过毕昇编译器编译后生成可执行程序，运行可执行程序，可以完成算子NPU域的运行验证。使用算子调优工具运行NPU模式下生成的可执行文件从而采集Ascend C算子在AI处理器上执行的性能数据，进行性能精细调优。
 当前，Kirin支持的芯片型号为KirinX90, Kirin9030，支持分析的类型为为仿真器，支持的场景为Kernel直调场景，关于Kernel直调场景的详情请参考 [Kernel直调说明](https://www.hiascend.com/document/detail/zh/canncommercial/83RC1/opdevg/Ascendcopdevg/atlas_ascendc_10_0056.htmld)。
 ### 精度校验
