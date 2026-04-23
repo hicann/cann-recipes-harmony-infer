@@ -22,6 +22,7 @@ if [ ! $ASCEND_HOME_PATH ]; then
     source $ASCEND_HOME_PATH/bin/setenv.bash
 fi
 export ASCEND_TENSOR_COMPILER_INCLUDE=$ASCEND_HOME_PATH/compiler/include
+export LD_PRELOAD=${ASCEND_HOME_PATH}/x86_64-linux/lib64/libmmpa.so
 
 if grep -q "/usr/local/Ascend/cann" "./CMakePresets.json"; then
     sed -i "s#/usr/local/Ascend/cann#$ASCEND_HOME_PATH#g" $(grep "/usr/local/Ascend/cann" -rl ./CMakePresets.json)
