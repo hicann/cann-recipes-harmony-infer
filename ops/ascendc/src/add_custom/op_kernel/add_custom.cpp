@@ -60,9 +60,9 @@ private:
         AscendC::LocalTensor<DTYPE_Y> yLocal = inQueueY.DeQue<DTYPE_Y>();
         AscendC::LocalTensor<DTYPE_Z> zLocal = outQueueZ.AllocTensor<DTYPE_Z>();
         AscendC::Add(zLocal, xLocal, yLocal, this->tileLength);
-        DumpTensor(xLocal, 0, 32);
-        DumpTensor(yLocal, 1, 32);
-        DumpTensor(zLocal, 2, 32);
+        // DumpTensor(xLocal, 0, 32);
+        // DumpTensor(yLocal, 1, 32);
+        // DumpTensor(zLocal, 2, 32);
         outQueueZ.EnQue<DTYPE_Z>(zLocal);
         inQueueX.FreeTensor(xLocal);
         inQueueY.FreeTensor(yLocal);
@@ -90,7 +90,7 @@ extern "C" __global__ __aicore__ void add_custom(GM_ADDR x, GM_ADDR y, GM_ADDR z
                                                  GM_ADDR workspace, GM_ADDR tiling)
 {
     GET_TILING_DATA(tiling_data, tiling);
-    printf("bias is %d.\n", tiling_data.bias);
+    // printf("bias is %d.\n", tiling_data.bias);
     KernelAdd op;
     op.Init(x, y, z, tiling_data.size, TILE_NUM);
     op.Process();
