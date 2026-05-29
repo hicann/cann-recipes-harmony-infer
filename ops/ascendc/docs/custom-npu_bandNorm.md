@@ -1,5 +1,5 @@
 # 应用场景说明
-音频领域对精度非常敏感, float16不能满足业务精度要求, 需要提升到float32计算, 而NPU上预制的算子是按float6计算。为了在NPU上实现float32的音频计算, 提出基于Ascend C的 NPU 版本Float32计算BandNorm解决方案。此方案在QQ声伴分离业务中得到应用实践并验证满足精度要求。
+音频领域对精度非常敏感, float16不能满足业务精度要求, 需要提升到float32计算, 而NPU上预制的算子是按float16计算。为了在NPU上实现float32的音频计算, 提出基于Ascend C的 NPU 版本Float32计算BandNorm解决方案。此方案在QQ声伴分离业务中得到应用实践并验证满足精度要求。
 
 # BandNormCustom自定义算子样例说明
 本样例通过Ascend C编程语言调用基础API，实现bandNorm算子。
