@@ -13,6 +13,7 @@
 
 #include <cstring>
 #include <vector>
+#include <algorithm>
 
 #include "acl_manager.h"
 #include "utils/log.h"

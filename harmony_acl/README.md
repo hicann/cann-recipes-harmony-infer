@@ -3,10 +3,11 @@
 
 ### 前置条件
 #### 开发环境
-推荐使用ubuntu 24.04LTS以上版本，并安装build-essential包，包含主机端编译环境，用于构建UT。
+使用ubuntu 24.04LTS以上版本，并安装build-essential包，包含主机端编译环境，用于构建UT。可使用如下命令安装
+`sudo apt-get install build-essential`
 
 #### 项目编译工具
-打开网址https://developer.huawei.com/consumer/cn/download/command-line-tools-for-hmos下载linux环境下native开发环境commandline-tools-linux-x64-6.1.0.830.zip, 并参考https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/build-with-ndk-cmake搭建ohos开发环境。
+打开网址https://developer.huawei.com/consumer/cn/download/command-line-tools-for-hmos下载linux环境下native开发环境commandline-tools-linux-x64, 并参考https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/build-with-ndk-cmake搭建ohos开发环境。并将host主机上刚下载解压的command-line-tools所在目录配置到build.sh中的CMD_LINE_TOOLS_DIR变量中。
 
 #### 项目编译依赖环境准备
 1. 访问CANN仓获取依赖头文件
@@ -23,7 +24,7 @@
 处理方式同上，默认无需手动处理，如果脚本执行失败，访问网址https://gitcode.com/GitHub_Trending/js/json/tags/v3.12.0，下载v3.12.0版本source(zip)，并放置到depends目录中。
 
 3. 安装gtest开发包
-可使用如下命令安装sudo apt-get install libgtest-dev
+可使用如下命令安装`sudo apt-get install libgtest-dev`
 
 ### 编译
 执行完上述依赖操作后，请到仓cann-recipes-harmony-infer源码目录下的harmony_acl目录执行该脚本./build.sh

@@ -114,10 +114,12 @@ deal_after_download() {
     cd ..
 }
 
-# 这里OHOS_SDK和HMS_INC_DIR替换为自己环境目录
-export OHOS_SDK=/home/sizel/test/command-line-tools/sdk/default/openharmony/
-export OHOS_INC_DIR=/home/sizel/test/command-line-tools/sdk/default/openharmony/native/sysroot/usr/include/
-export HMS_INC_DIR=/home/sizel/test/command-line-tools/sdk/default/hms/native/sysroot/usr/include/
+# 这里替换为command-line-tools在自己环境上的目录
+CMD_LINE_TOOLS_DIR=/home/sizel/test/command-line-tools
+
+OHOS_SDK=${CMD_LINE_TOOLS_DIR}/sdk/default/openharmony/
+OHOS_INC_DIR=${OHOS_SDK}/native/sysroot/usr/include/
+HMS_INC_DIR=${CMD_LINE_TOOLS_DIR}/sdk/default/hms/native/sysroot/usr/include/
 CURRENT_DIR=`pwd` # 这里填上仓cann-recipes-harmony-infer源码目录下的harmony_acl目录
 cd ${CURRENT_DIR}
 
