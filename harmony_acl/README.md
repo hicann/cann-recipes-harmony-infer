@@ -1,5 +1,5 @@
 # AscendCL 
-<span style="font-size:24px;">端侧与图灵在ACL层共接口，有助于扩大端侧CANN的影响力，吸引更多开发者开源共建；有助于CANN生态和鸿蒙生态形成交集，共同繁荣。</span>
+<span style="font-size:24px;">harmony_acl提供了和昇腾平台统一的ACL接口，方便开发者基于同一套接口部署模型推理</span>
 
 ### 前置条件
 #### 开发环境
@@ -7,7 +7,7 @@
 `sudo apt-get install build-essential`
 
 #### 项目编译工具
-打开网址https://developer.huawei.com/consumer/cn/download/command-line-tools-for-hmos下载linux环境下native开发环境commandline-tools-linux-x64, 并参考https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/build-with-ndk-cmake搭建ohos开发环境。并将host主机上刚下载解压的command-line-tools所在目录配置到build.sh中的CMD_LINE_TOOLS_DIR变量中。
+打开网址https://developer.huawei.com/consumer/cn/download/command-line-tools-for-hmos, 下载linux环境下native开发环境commandline-tools-linux-x64, 并参考https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/build-with-ndk-cmake, 搭建ohos开发环境。将host主机上刚下载解压的command-line-tools所在目录配置到build.sh中的CMD_LINE_TOOLS_DIR变量中。
 
 #### 项目编译依赖环境准备
 1. 访问CANN仓获取依赖头文件
