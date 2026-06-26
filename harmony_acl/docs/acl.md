@@ -279,8 +279,155 @@ aclmdlConfigHandles端侧仅支持这些配置：
 | 函数原型 | aclError aclmdlSetInputDynamicDims(uint32_t modelId, aclmdlDataset *dataset, size_t index, const aclmdlIODims *dims)   |
 |---------| ------------------------------------------|
 | 函数功能 | 动态修改推理时的输入数据 |
-| 输入说明 | uint32_t modelld模型标识，aclmdlDataset *dataset输入数据的指针
-，size_t index标识动态维度的输入index，const aclmdllODims *dims具体某一档上的所有维度信息的指针。 |
+| 输入说明 | uint32_t modelld模型标识，aclmdlDataset *dataset输入数据的指针，size_t index标识动态维度的输入index，const aclmdllODims *dims具体某一档上的所有维度信息的指针。 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+## 7、 aipp图像预处理
+详细参数规格参考 https://developer.huawei.com/consumer/cn/doc/hiai-Guides/aipp-parameters-0000001053445646
+
+| 函数原型 | aclmdlAIPP* aclmdlCreateAIPP(uint64_t batchSize)  |
+|---------| ------------------------------------------|
+| 函数功能 | 创建aipp参数 |
+| 输入说明 | batchSize aipp批量个数 |
+| 输出说明 | NA  |
+| 返回值说明 | 创建成功返回参数地址，失败返回空指针  |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+| 函数原型 | aclError aclmdlDestroyAIPP(const aclmdlAIPP *aippParmsSet)   |
+|---------| ------------------------------------------|
+| 函数功能 | 销毁aipp参数 |
+| 输入说明 | aippParmsSet 待销毁aipp参数地址 |
+| 输出说明 | NA  |
+| 返回值说明 | 成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlGetAippDataSize(uint64_t batchSize, size_t *size)   |
+|---------| ------------------------------------------|
+| 函数功能 | 获取aipp参数空间大小 |
+| 输入说明 | batchSize 批量大小输入, size 此批量大小对应的aipp参数数据大小 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+| 函数原型 | aclError aclmdlSetAIPPInputFormat(aclmdlAIPP *aippParmsSet, aclAippInputFormat inputFormat)   |
+|---------| ------------------------------------------|
+| 函数功能 | 设置输入图片格式的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，inputFormat 输入图片格式|
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+| 函数原型 | aclError aclmdlSetAIPPSrcImageSize(aclmdlAIPP *aippParmsSet, int32_t srcimageSizeW, int32_t srcimageSizeH)   |
+|---------| ------------------------------------------|
+| 函数功能 | 设置输入源图片大小的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，srcimageSizeW 图片宽度， srcimageSizeH 图片高度 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+| 函数原型 | aclError aclmdlSetAIPPCscParams(aclmdlAIPP *aippParmsSet, int8_t cscSwitch, int16_t cscMatrixROCO, int16_t cscMatrixROC1, int16_t cscMatrixR0C2, int16_t cscMatrixR1CO, int16_t cscMatrixR1C1, int16_t cscMatrixR1C2, int16_t cscMatrixR2C0, int16_t cscMatrixR2C1, int16_t cscMatrixR2C2, uint8_t cscOutputBiasRO, uint8_t cscOutputBiasR1, uint8_t cscOutputBiasR2, uint8_t cscinputBiasRO, uint8_t cscInputBiasR1, uint8_t cscInputBiasR2)   |
+|---------| ------------------------------------------|
+| 函数功能 | 设置颜色空间转换的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，cscSwitch 转换开关，cscMatrix等参数参考上面链接 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlSetAIPPRbuvSwapSwitch(aclmdlAIPP *aippParmsSet, int8_t rbuvSwapSwitch)   |
+|---------| ------------------------------------------|
+| 函数功能 | 设置RB/UV通道交换的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，rbuvSwapSwitch 转换开关 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlSetAIPPAxSwapSwitch(aclmdlAIPP *aippParmsSet, int8_t axSwapSwitch)   |
+|---------| ------------------------------------------|
+| 函数功能 | 设置AX通道交换的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，axSwapSwitch 转换开关 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+| 函数原型 | aclError aclmdlSetAIPPScfParams(aclmdlAIPP *aippParmsSet, int8_t scfSwitch, int32_t scfInputSizeW, int32_t scfInputSizeH, int32_t scfOutputSizeW, int32_t scfOutputSizeH, uint64_t batchIndex)   |
+|---------| ------------------------------------------|
+| 函数功能 | 设置图片缩放的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，scfSwitch 功能开关，batchIndex aipp输出索引，其他参数参考链接 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlSetAIPPCropParams(aclmdlAIPP *aippParmsSet, int8_t cropSwitch, int32_t cropStartPosW, int32_t cropStartPosH, int32_t cropSizeW, int32_t cropSizeH, uint64_t batchIndex)   |
+|---------| ------------------------------------------|
+| 函数功能 | 设置图片缩放的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，cropSwitch 功能开关，batchIndex aipp输出索引，其他参数参考链接 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlSetAIPPPaddingParams(aclmdlAIPP *aippParmsSet, int8_t paddingSwitch, int32_t paddingSizeTop, int32_t paddingSizeBottom, int32_t paddingSizeLeft, int32_t paddingSizeRight, uint64_t batchIndex)  |
+|---------| ------------------------------------------|
+| 函数功能 | 设置图片缩放的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，paddingSwitch 功能开关，batchIndex aipp输出索引，其他参数参考链接 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlSetAIPPDtcPixelMean(aclmdlAIPP *aippParmsSet, int16_t dtcPixelMeanChn0, int16_t dtcPixelMeanChn1, int16_t dtcPixelMeanChn2, int16_t dtcPixelMeanChn3, uint64_t batchIndex)  |
+|---------| ------------------------------------------|
+| 函数功能 | 设置图片数据类型转换的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，batchIndex aipp输出索引，其他参数参考链接 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlSetAIPPDtcPixelMin(aclmdlAIPP *aippParmsSet, float dtcPixelMinChn0, float dtcPixelMinChn1, float dtcPixelMinChn2, float dtcPixelMinChn3, uint64_t batchIndex)  |
+|---------| ------------------------------------------|
+| 函数功能 | 设置图片数据类型转换的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，batchIndex aipp输出索引，其他参数参考链接 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlSetAIPPPixelVarReci(aclmdlAIPP *aippParmsSet, float dtcPixelVarReciChn0, float dtcPixelVarReciChn1, float dtcPixelVarReciChn2, float dtcPixelVarReciChn3, uint64_t batchIndex)  |
+|---------| ------------------------------------------|
+| 函数功能 | 设置图片数据类型转换的aipp参数 |
+| 输入说明 | aippParmsSet 待设置aipp参数地址，batchIndex aipp输出索引，其他参数参考链接 |
+| 输出说明 | NA  |
+| 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
+| 使用说明 | NA |
+| 注意事项 | NA |
+
+
+| 函数原型 | aclError aclmdlSetAIPPByInputIndex(uint32_t modelId, aclmdlDataset *dataset, size_t index, const aclmdlAIPP *aippParmSet)  |
+|---------| ------------------------------------------|
+| 函数功能 | 设置aipp参数到指定模型输入 |
+| 输入说明 | modelId 指定的模型，index 输入index，aippParmsSet 待设置aipp参数地址 |
 | 输出说明 | NA  |
 | 返回值说明 | aclError成功返回ACL_SUCCESS, 失败返回ACL_ERROR_INVALID_PARAM |
 | 使用说明 | NA |
