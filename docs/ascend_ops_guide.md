@@ -116,7 +116,7 @@ bash build.sh --pkg --soc=KirinX90 --ops=is_finite -j16
 
 1.下载工具包：
 
-下载对应`Ascend-cann-toolkit_${cann_version}_linux-${arch}-mobile-station.run`包，下载链接为[toolkit x86_64包](https://kiri-obs.obs.cn-north-4.myhuaweicloud.com/Cann%20Large%20Model%20Foundation%208.5.0.rc001/Ascend-cann-toolkit_9.0.0_linux-x86_64-mobile-station.run)。
+下载对应`Ascend-cann-toolkit_${cann_version}_linux-${arch}-mobile-station.run`包，下载链接为[toolkit x86_64包](https://kiri-obs.obs.cn-north-4.myhuaweicloud.com/Cann%20Large%20Model%20Foundation%208.5.0.rc002/Ascend-cann-toolkit_9.2.0_linux-x86_64-mobile-station.run)。
 
 2.执行安装：
 
@@ -195,6 +195,8 @@ atc --singleop=is_finite_3_6_5_float16.singleop_json --soc_version=KirinX90 --ou
 
 
 ### 7.1安装HAP应用
+
+下载对应`entry-default-signed.hap`包，下载链接为[hap包](https://gitcode.com/funna2000/kirin_cann_test/blob/main/entry-default-signed.hap)。
 
 ```bash
 # 通过hdc安装hap包
