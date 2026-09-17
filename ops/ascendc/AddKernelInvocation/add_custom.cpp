@@ -17,7 +17,7 @@
 #include "kernel_operator.h"
 
 constexpr int32_t TOTAL_LENGTH = 8 * 2048;                            // total length of data
-constexpr int32_t USE_CORE_NUM = 8;                                   // num of core used
+constexpr int32_t USE_CORE_NUM = 1;                                   // num of core used
 constexpr int32_t BLOCK_LENGTH = TOTAL_LENGTH / USE_CORE_NUM;         // length computed of each core
 constexpr int32_t TILE_NUM = 8;                                       // split data into 8 tiles for each core
 constexpr int32_t BUFFER_NUM = 2;                                     // tensor num for each queue

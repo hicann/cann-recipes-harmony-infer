@@ -26,7 +26,7 @@ extern "C" __global__ __aicore__ void add_custom(GM_ADDR x, GM_ADDR y, GM_ADDR z
 
 int32_t main(int32_t argc, char* argv[])
 {
-    uint32_t blockDim = 8;
+    uint32_t blockDim = 1;
     size_t inputByteSize = 8 * 2048 * sizeof(uint16_t);
     size_t outputByteSize = 8 * 2048 * sizeof(uint16_t);
     
