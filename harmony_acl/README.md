@@ -33,4 +33,4 @@
 ut运行，编译完成后，cd进入build/ut目录，执行命令export LD_LIBRARY_PATH=`pwd`配置环境变量后执行./ascendcl_ut
 
 ### 开发指导
-ascendcl库头文件在cann-recipes-harmony-infer/harmony_acl/inclue目录下，库文件libhiai_ascendcl.so在cann-recipes-harmony-infer/harmony_acl/build目录下。集成使用请参考docs目录下文档。
+ascendcl库头文件在cann-recipes-harmony-infer/harmony_acl/include目录下，库文件libhiai_ascendcl.so在cann-recipes-harmony-infer/harmony_acl/build目录下。集成使用请参考docs目录下文档。
