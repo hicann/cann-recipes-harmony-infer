@@ -1,3 +1,4 @@
+#! /bin/bash
 # Copyright (C) 2020-2026. Huawei Technologies Co., Ltd. All rights reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -9,7 +10,6 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # Apache License for more details at http://www.apache.org/licenses/LICENSE-2.0
 
-#! /bin/bash
 # 注意：脚本正常执行需下载一些依赖头文件，脚本自动进行下载，如果下载配置失败可以参考README.md手动下载
 
 set -e
