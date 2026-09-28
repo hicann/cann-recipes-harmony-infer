@@ -48,7 +48,7 @@
 - 打开样例目录
 
   ```
-  cd $HOME/ops/AddKernelInvocation
+  cd $HOME/ops/ascendc/AddKernelInvocation
   ```
 - 配置环境变量
 
