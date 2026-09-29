@@ -77,14 +77,27 @@ aclError parseJsonFile(const std::string& filename, std::unordered_map<std::stri
     {
         //读取文件内容
         std::ifstream file(filename);
-        ACL_EXPECT_TRUE_WITH_LOG(file.is_open(), "filename: [%s] open failed", filename.c_str());
+        if (!file.is_open())
+        {
+            ACL_LOGE("filename: [%s] open failed", filename.c_str());
+            return ACL_ERROR_FAILURE;
+        }
 
         //解析json
         nlohmann::json j;
         file >> j;
+        if (j.is_discarded())
+        {
+            ACL_LOGE("Json parsed failed for file: [%s]", filename.c_str());
+            return ACL_ERROR_FAILURE;
+        }
 
         //检查deviceconfigmode
-        ACL_EXPECT_TRUE_R(j.contains("DeviceConfigMode"), ACL_SUCCESS);
+        if (!j.contains("DeviceConfigMode"))
+        {
+            ACL_LOGE("Missing DeviceConfigMode in config file: [%s]", filename.c_str());
+            return ACL_ERROR_INVALID_PARAM;
+        }
 
         if (j["DeviceConfigMode"] == "OP_LEVEL")
         {
@@ -92,10 +105,15 @@ aclError parseJsonFile(const std::string& filename, std::unordered_map<std::stri
         } else if (j["DeviceConfigMode"] == "MODEL_LEVEL")
         {
             parseModelLevelJsonFile(j, deviceMap);
+        } else
+        {
+            ACL_LOGE("Invalid DeviceConfigMode value: [%s]", j["DeviceConfigMode"].get<std::string>().c_str());
+            return ACL_ERROR_INVALID_PARAM;
         }
     } catch(const nlohmann::json::exception& e) {
         std::string exception_message = e.what();
         ACL_LOGE("Json parsed failed. msg: [%s]", exception_message.c_str());
+        return ACL_ERROR_FAILURE;
     }
     return ACL_SUCCESS;
 }
@@ -248,20 +266,40 @@ aclError SetCompilationShapeConfig(OH_NNCompilation *compilation, std::vector<NN
 
 aclError SetCompilationReuseConfig(OH_NNCompilation *compilation, std::string &reuseString)
 {
+    if (reuseString.empty())
+    {
+        ACL_LOGE("Empty reuseString parameter");
+        return ACL_ERROR_INVALID_PARAM;
+    }
+ 
     HiAI_DeviceMemoryReusePlan reusePlan = static_cast<HiAI_DeviceMemoryReusePlan>(-1);
-    if (std::stoi(reuseString) == HIAI_DEVICE_MEMORY_REUSE_PLAN_LOW)
+    try
     {
-        reusePlan = HIAI_DEVICE_MEMORY_REUSE_PLAN_LOW;
-    } else if (std::stoi(reuseString) == HIAI_DEVICE_MEMORY_REUSE_PLAN_HIGH)
-    {
-        reusePlan = HIAI_DEVICE_MEMORY_REUSE_PLAN_HIGH;
-    } else if (std::stoi(reuseString) == HIAI_DEVICE_MEMORY_REUSE_PLAN_UNSET)
-    {
-        reusePlan = HIAI_DEVICE_MEMORY_REUSE_PLAN_UNSET;
-    } else {
-        ACL_LOGE("The value of parameter EXEC_DISABLE_REUSED_MEMORY is not support");
+        int intValue = std::stoi(reuseString);
+        if (intValue == HIAI_DEVICE_MEMORY_REUSE_PLAN_LOW)
+        {
+            reusePlan = HIAI_DEVICE_MEMORY_REUSE_PLAN_LOW;
+        } else if (intValue == HIAI_DEVICE_MEMORY_REUSE_PLAN_HIGH)
+        {
+            reusePlan = HIAI_DEVICE_MEMORY_REUSE_PLAN_HIGH;
+        } else if (intValue == HIAI_DEVICE_MEMORY_REUSE_PLAN_UNSET)
+        {
+            reusePlan = HIAI_DEVICE_MEMORY_REUSE_PLAN_UNSET;
+        } else {
+            ACL_LOGE("Unsupported value of EXEC_DISABLE_REUSED_MEMORY: [%s]", reuseString.c_str());
+            return ACL_ERROR_INVALID_PARAM;
+        }
+    } catch(const std::invalid_argument& e) {
+        ACL_LOGE("Invalid argument for EXEC_DISABLE_REUSED_MEMORY: [%s]", reuseString.c_str());
+        return ACL_ERROR_INVALID_PARAM;
+    } catch(const std::out_of_range& e) {
+        ACL_LOGE("Out of range for EXEC_DISABLE_REUSED_MEMORY: [%s]", reuseString.c_str());
+        return ACL_ERROR_INVALID_PARAM;
+    } catch(...) {
+        ACL_LOGE("Unexpected error parsing EXEC_DISABLE_REUSED_MEMORY: [%s]", reuseString.c_str());
         return ACL_ERROR_FAILURE;
     }
+
     return HIAI_NDK_HiAIOptions_SetDeviceMemoryReusePlan(compilation, reusePlan);
 }
 
@@ -367,11 +405,17 @@ aclError ACLManager::BuildModel(OH_NNCompilation *compilation, const std::map<As
             std::string optionShape = pair.second.GetString();
             std::vector<NN_TensorDesc*> inputDescs;
             std::unordered_map<string, std::vector<int32_t>> shapeMap;
-            ret = ParseInputShape(optionShape, shapeMap);
-            ret = CreateTensorWithShape(shapeMap, inputDescs);
-            ACL_EXPECT_TRUE_WITH_LOG(ret == ACL_SUCCESS, "parse inputshape is fail");
-            ret = SetCompilationShapeConfig(compilation, inputDescs);
-            ACL_EXPECT_TRUE_WITH_LOG(ret == ACL_SUCCESS, "set compilation shape config is fail");
+            aclError parseRet = ParseInputShape(optionShape, shapeMap);
+            if (parseRet != ACL_SUCCESS)
+            {
+                ACL_LOGE("ParseInputShape failed for optionShape");
+                return parseRet;
+            }
+            aclError createRet = CreateTensorWithShape(shapeMap, inputDescs);
+            ACL_EXPECT_TRUE_WITH_LOG(createRet == ACL_SUCCESS, "create tensor with shape is fail");
+            aclError shapeConfigRet = SetCompilationShapeConfig(compilation, inputDescs);
+            ACL_EXPECT_TRUE_WITH_LOG(shapeConfigRet == ACL_SUCCESS, "set compilation shape config is fail");
+            ret = shapeConfigRet;
         }
         if (pair.first == ge::ir_option::EXEC_DISABLE_REUSED_MEMORY)
         {
@@ -414,10 +458,21 @@ aclError ACLManager::SaveModel(const char_t *graph_file, const aclmdlModel* mode
     OH_NNCompilation *compilation = reinterpret_cast<OH_NNCompilation*>(*model);
     size_t size = 200 * 1024 * 1024;
     void *data = malloc(size);
+    if (data == nullptr)
+    {
+        ACL_LOGE("malloc failed for model buffer");
+        return ACL_ERROR_FAILURE;
+    }
     size_t realSize = 0;
-    auto ret = HIAI_NDK_NNCompilation_ExportCacheToBuffer(compilation, data, size, &realSize);
-    ret = WriteBufferToFile(data, realSize, graph_file);
-    if (ret != ACL_SUCCESS)
+   aclError exportRet = HIAI_NDK_NNCompilation_ExportCacheToBuffer(compilation, data, size, &realSize);
+    if (exportRet != ACL_SUCCESS)
+    {
+        ACL_LOGE("ExportCacheToBuffer failed");
+        free(data);
+        return exportRet;
+    }
+    aclError writeRet = WriteBufferToFile(data, realSize, graph_file);
+    if (writeRet != ACL_SUCCESS)
     {
         ACL_LOGE("save model to file failed");
         free(data);
@@ -566,6 +621,12 @@ aclError PrepareAippModelInputs(OH_NNExecutor* executor, const aclmdlDataset *in
         ret = HIAI_NDK_HiAIAippParam_GetInputShape(input->aippParas[i].get(), &srcImageW, &srcImageH);
         ACL_EXPECT_TRUE_WITH_LOG(ret == ACL_SUCCESS, "HiAIAippParam_GetInputShape failed");
         std::vector<int32_t> aippShape;
+        if (shapeLength < 2)
+        {
+            ACL_LOGE("shapeLength (%zu) is less than 2, cannot extract aipp shape", shapeLength);
+            HIAI_NDK_NNTensorDesc_Destroy(&inputDesc);
+            continue;
+        }
         for (size_t i = 0; i < shapeLength - 2; i++)
         {
             aippShape.push_back(shape[i]);
