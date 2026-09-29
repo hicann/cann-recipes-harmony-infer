@@ -128,7 +128,7 @@ def export_demo(model, path: str):
 
 ## 2.3 build_so_and_setup_demo.py
 
-代码详见[pypto代码仓 /examples](https://https://gitcode.com/cann/pypto/tree/master/examples)。
+代码详见[pypto代码仓 /examples](https://gitcode.com/cann/pypto/tree/master/examples)。
 
 # 3. ATC 转换
 
