@@ -502,7 +502,6 @@ aclError ACLManager::LoadModel(OH_NNCompilation *compilation, uint32_t *modelId)
     if (ret != ACL_SUCCESS)
     {
         ACL_LOGE("get modelid failed");
-        HIAI_NDK_NNExecutor_Destroy(&ptr);
         return ACL_ERROR_INVALID_PARAM;
     }
     executorMap_.emplace(std::make_pair(*modelId, executor));
@@ -597,7 +596,6 @@ aclError ACLManager::LoadModel(const aclmdlConfigHandle* handle, uint32_t* model
     if (ret != ACL_SUCCESS)
     {
         ACL_LOGE("get modelid failed");
-        HIAI_NDK_NNExecutor_Destroy(&ptr);
         return ACL_ERROR_INVALID_PARAM;
     }
     executorMap_.emplace(std::make_pair(*modelId, executor));

@@ -196,22 +196,20 @@ static napi_value NAPI_Global_GetResult(napi_env env, napi_callback_info info) {
     napi_value resList;
     napi_create_array_with_length(env, 2, &resList);
     
-    const char* cpuRunResult = std::to_string(cpuRunTime).c_str();
-    const char* npuRunResult = std::to_string(npuRunTime).c_str();
+    const std::string cpuRunStr = std::to_string(cpuRunTime);
+    const std::string npuRunStr = std::to_string(npuRunTime);
       
     
     napi_value jsCpuString;
     napi_value jsNpuString;
     
-    napi_status status;
-    
-    status = napi_create_string_utf8(env, cpuRunResult, strlen(cpuRunResult) + 1, &jsCpuString);
+    napi_status status = napi_create_string_utf8(env, cpuRunStr.c_str(), cpuRunStr.size(), &jsCpuString);
     if (status != napi_ok) {
         OH_LOG_ERROR(LOG_APP, "Obtain cpuRunResult failed");
         return resList;
     }
     
-    status = napi_create_string_utf8(env, npuRunResult, strlen(npuRunResult) + 1, &jsNpuString);
+    status = napi_create_string_utf8(env, npuRunStr.c_str(), npuRunStr.size(), &jsNpuString);
     if (status != napi_ok) {
         OH_LOG_ERROR(LOG_APP, "Obtain npuRunResult failed");
         return resList;
@@ -259,6 +257,7 @@ static napi_value NAPI_Global_LoadModel(napi_env env, napi_callback_info info) {
     long modelSize = OH_ResourceManager_GetRawFileSize(rawFile);
     std::unique_ptr<uint8_t[]> modelData = std::make_unique<uint8_t[]>(modelSize);
     int res = OH_ResourceManager_ReadRawFile(rawFile, modelData.get(), modelSize);
+    OH_ResourceManager_CloseRawFile(rawFile);
     if (res == 0) {
         return errorCode;
     }
