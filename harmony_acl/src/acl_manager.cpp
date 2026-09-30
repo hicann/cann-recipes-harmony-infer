@@ -832,8 +832,10 @@ aclError ACLManager::SetInputDynamic(uint32_t modelId, aclmdlDataset *dataset, s
         DestroyTensors(inputTensors);
         return ACL_ERROR_INVALID_PARAM;
     }
-
-    dynamicInput_.emplace(std::make_pair(modelId, inputTensors));
+    // Replace any pending dynamic input tensors for this model.
+    auto &cachedInputs = dynamicInput_[modelId];
+    DestroyTensors(cachedInputs);
+    cachedInputs.swap(inputTensors);
     return ACL_SUCCESS;
 }
 
