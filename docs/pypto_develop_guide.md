@@ -128,7 +128,7 @@ def export_demo(model, path: str):
 
 ## 2.3 build_so_and_setup_demo.py
 
-代码详见[pypto代码仓 /examples](https://gitcode.com/cann/pypto/tree/master/examples)。
+代码详见[链接](https://gitcode.com/cann/pypto/blob/master/tools/exported_custom_op_litenpu/deploy/build_so_and_setup.py)。
 
 # 3. ATC 转换
 
@@ -142,7 +142,7 @@ source ${CANN_INSTALL_PATH}/cann/set_env.sh
 python3 export_demo.py tmp/model.onnx
 
 # 构造自定义算子工程
-python3 ../build_so_and_setup_demo.py tmp/model.onnx
+python3 build_so_and_setup_demo.py tmp/model.onnx
 
 export ASCEND_CUSTOM_OPP_PATH=/xxx/tmp/build_op_kernel_lib/build
 
