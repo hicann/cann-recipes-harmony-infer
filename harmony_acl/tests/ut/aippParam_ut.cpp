@@ -50,6 +50,8 @@ public:
         ASSERT_NE(nullptr, aippParam);
         ASSERT_EQ(ACL_SUCCESS, aclmdlSetAIPPSrcImageSize(aippParam, 64, 64));
         ASSERT_EQ(ACL_SUCCESS, aclmdlSetAIPPByInputIndex(modelId, input, 0, aippParam));
+        ASSERT_EQ(ACL_SUCCESS, aclmdlDestroyAIPP(aippParam));
+        aippParam = nullptr;
     }
 
     void SetUp()
@@ -168,6 +170,21 @@ TEST_F(AscendclAippUT, aippParam_rbuvSwap_axSwap_0)
     EXPECT_EQ(ACL_ERROR_INVALID_PARAM, retCode);
     retCode = aclmdlSetAIPPAxSwapSwitch(aippParam_, axSwapSwitch);
     EXPECT_EQ(ACL_ERROR_INVALID_PARAM, retCode);
+}
+
+TEST_F(AscendclAippUT, aippParam_dataset_retains_after_destroy)
+{
+    aclmdlAIPP *aippParam = aclmdlCreateAIPP(BATCH_NUM);
+    ASSERT_NE(nullptr, aippParam);
+    aclmdlDataset *dataset = aclmdlCreateDataset();
+    ASSERT_NE(nullptr, dataset);
+
+    ASSERT_EQ(ACL_SUCCESS, aclmdlSetAIPPInputFormat(aippParam, ACL_YUV420SP_U8));
+    ASSERT_EQ(ACL_SUCCESS, aclmdlSetAIPPByInputIndex(0, dataset, 0, aippParam));
+    ASSERT_EQ(ACL_SUCCESS, aclmdlDestroyAIPP(aippParam));
+
+    EXPECT_EQ(HIAI_YUV420SP_U8, HIAI_NDK_HiAIAippParam_GetInputFormat(dataset->aippParas[0].get()));
+    EXPECT_EQ(ACL_SUCCESS, aclmdlDestroyDataset(dataset));
 }
 
 TEST_F(AscendclAippUT, aippParam_getsize)
@@ -470,6 +487,8 @@ TEST_F(AscendclAippUT, set_aipp_config)
     EXPECT_EQ(ret, ACL_SUCCESS);
     
     ret = aclmdlSetAIPPByInputIndex(0, dataset, 0, aippconfig);
+    EXPECT_EQ(ret, ACL_SUCCESS);
+    ret = aclmdlDestroyAIPP(aippconfig);
     EXPECT_EQ(ret, ACL_SUCCESS);
 
     ret = aclmdlExecute(modelId, dataset, dataset1);

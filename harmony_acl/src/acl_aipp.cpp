@@ -14,6 +14,10 @@
 #include <cstring>
 #include <vector>
 #include <algorithm>
+#include <memory>
+#include <mutex>
+#include <unordered_map>
+#include <utility>
 
 #include "acl_manager.h"
 #include "utils/log.h"
@@ -226,6 +230,18 @@ struct ChannelSwapParaSave
 
 ChannelSwapParaSave channelSwapPara;
 
+struct AippParamOwnerRegistry
+{
+    std::unordered_map<HiAI_AippParam*, std::shared_ptr<HiAI_AippParam>> owners;
+    std::mutex mutex;
+};
+
+AippParamOwnerRegistry& GetAippParamOwnerRegistry()
+{
+    static AippParamOwnerRegistry registry;
+    return registry;
+}
+
 constexpr int8_t AIPP_SWITCH_ON = 1;
 constexpr int8_t AIPP_SWITCH_OFF = 0;
 constexpr int16_t CSC_MATRIX_MIN = -32677;
@@ -246,9 +262,17 @@ constexpr float32_t VR_CHN_MAX = 65504.0F;
 
 aclmdlAIPP* aclmdlCreateAIPP(uint64_t batchSize)
 {
-    auto hiaiAipp = HIAI_NDK_HiAIAippParam_Create(batchSize);
-    aclmdlAIPP* aippParam = reinterpret_cast<aclmdlAIPP*>(hiaiAipp);
-    return aippParam;
+    auto aippParam = std::shared_ptr<HiAI_AippParam>(HIAI_NDK_HiAIAippParam_Create(batchSize),
+        [](HiAI_AippParam* param) { HIAI_NDK_HiAIAippParam_Destroy(&param); });
+    ACL_EXPECT_NOT_NULL_R(aippParam, nullptr);
+
+    auto *param = aippParam.get();
+    auto &registry = GetAippParamOwnerRegistry();
+    {
+        const std::lock_guard<std::mutex> locker(registry.mutex);
+        registry.owners.emplace(param, std::move(aippParam));
+    }
+    return reinterpret_cast<aclmdlAIPP*>(param);
 }
 
 aclError aclmdlSetAIPPCscParams(aclmdlAIPP *aippParmsSet, int8_t cscSwitch,
@@ -300,9 +324,17 @@ aclError aclmdlSetAIPPCscParams(aclmdlAIPP *aippParmsSet, int8_t cscSwitch,
 aclError aclmdlDestroyAIPP(const aclmdlAIPP *aippParmsSet)
 {
     ACL_EXPECT_TRUE_R_WITH_LOG(aippParmsSet != nullptr, ACL_ERROR_INVALID_PARAM, "the aippParmsSet to destroy is nullptr");
-    HiAI_AippParam* aippParam = const_cast<HiAI_AippParam*>(reinterpret_cast<const HiAI_AippParam*>(aippParmsSet));
-    HIAI_NDK_HiAIAippParam_Destroy(&aippParam);
-    aippParmsSet = nullptr;
+    auto *param = const_cast<HiAI_AippParam*>(reinterpret_cast<const HiAI_AippParam*>(aippParmsSet));
+    auto &registry = GetAippParamOwnerRegistry();
+    std::shared_ptr<HiAI_AippParam> owner;
+    {
+        const std::lock_guard<std::mutex> locker(registry.mutex);
+        auto iter = registry.owners.find(param);
+        ACL_EXPECT_TRUE_R_WITH_LOG(iter != registry.owners.end(), ACL_ERROR_INVALID_PARAM,
+            "the aippParmsSet is not valid");
+        owner = std::move(iter->second);
+        registry.owners.erase(iter);
+    }
     return ACL_SUCCESS;
 }
 
@@ -595,6 +627,15 @@ aclError aclmdlSetAIPPByInputIndex(uint32_t modelId, aclmdlDataset *dataset, siz
     (void)modelId;
     ACL_EXPECT_TRUE_R_WITH_LOG(dataset != nullptr, ACL_ERROR_INVALID_PARAM, "the dataset is nullptr");
     HiAI_AippParam* aippParm = const_cast<HiAI_AippParam*>(reinterpret_cast<const HiAI_AippParam*>(aippParmSet));
+    auto &registry = GetAippParamOwnerRegistry();
+    std::shared_ptr<HiAI_AippParam> aippParmOwner;
+    {
+        const std::lock_guard<std::mutex> locker(registry.mutex);
+        auto iter = registry.owners.find(aippParm);
+        ACL_EXPECT_TRUE_R_WITH_LOG(iter != registry.owners.end(), ACL_ERROR_INVALID_PARAM,
+            "the aippParmsSet is not valid");
+        aippParmOwner = iter->second;
+    }
     aclError ret = ACL_ERROR_FAILURE;
     if (channelSwapPara.axSwapSwitch || channelSwapPara.rbuvSwapSwitch) {
         ret = HIAI_NDK_HiAIAippParam_SetChannelSwapConfig(
@@ -610,9 +651,7 @@ aclError aclmdlSetAIPPByInputIndex(uint32_t modelId, aclmdlDataset *dataset, siz
         ACL_LOGE("HIAI_NDK_HiAIAippParam_SetInputIndex failed");
         return ACL_ERROR_INVALID_PARAM;
     }
-    auto aippParmPtr = std::shared_ptr<HiAI_AippParam>(aippParm,
-        [](HiAI_AippParam* p) { HIAI_NDK_HiAIAippParam_Destroy(&p); });
-    dataset->aippParas.push_back(std::shared_ptr<HiAI_AippParam>(aippParmPtr));
+    dataset->aippParas.push_back(std::move(aippParmOwner));
     std::sort(dataset->aippParas.begin(), dataset->aippParas.end(),
         [](std::shared_ptr<HiAI_AippParam> a, std::shared_ptr<HiAI_AippParam> b) {
             return HIAI_NDK_HiAIAippParam_GetInputIndex(a.get()) <
