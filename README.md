@@ -15,6 +15,7 @@ cann-recipes-harmony-infer 是面向鸿蒙开发者的技术实践库，基于CA
 | [SliceGelu](ops/ascendc/docs/custom-npu_slice_gelu.md)在悟空图像SDXL大模型实践        |基于Ascend C实现SliceGelu融合算子，在KirinX90设备上高性能部署。|
 | [SobelCustom](ops/ascendc/docs/custom-npu_sobel.md)在边缘检测CV处理实践              |基于Ascend C实现Sobel自定义算子，在KirinX90设备上高性能部署。|
 | [GatherDequantInt8](ops/ascendc/docs/custom-npu_gatherDequantInt8.md)在端侧ASR/标点模型实践 |基于Ascend C实现GatherDequantInt8自定义算子，在Kirin9020设备上以INT8图内embedding查表+反量化高性能部署。|
+| [LogAddExp](ops/ascendc/docs/custom-npu_logAddExp.md)在酷狗音乐音频超分实践          |基于Ascend C实现支持广播的FP16 LogAddExp自定义算子，在Kirin 9020设备上完成推理部署。|
 
 ## 📖目录结构说明
 ```
