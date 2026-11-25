@@ -65,7 +65,7 @@ Ascend C是CANN针对算子开发场景推出的编程语言，遵循C和C++标�
 │  │
 │  └─onnx_plugin
 │          │──CMakeLists.txt
-│          │──add_custom_plugin.cc
+│          │──add_custom_plugin.cpp
 │
 ├─op_host
 │      │──CMakeLists.txt
@@ -77,7 +77,7 @@ Ascend C是CANN针对算子开发场景推出的编程语言，遵循C和C++标�
 │      │──add_custom.cpp
 │
 └─test
-    │──create_model.py
+    │──create_onnx.py
     │──gen_data.py
 
 ```
@@ -549,7 +549,7 @@ if (shape_tensor->GetDataType() == ge::DT_INT32) {
 1. 编译自定义算子工程，构建生成自定义算子包。
     在算子工程AddCustom目录下执行如下命令，进行算子工程编译。
     ```shell
-    ./build.sh
+    ./build_and_install.sh
     ```
     
     编译成功后，会在当前目录下创建build_out目录，在build_out/autogen目录下生成自定义算子交付件。

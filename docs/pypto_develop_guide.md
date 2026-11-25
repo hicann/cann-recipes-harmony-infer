@@ -22,7 +22,23 @@ CANN（Compute Architecture for Neural Networks）是昇腾 AI 计算引擎，�
 ./Ascend-cann-910b-ops_9.3.0~weekly.20261014.01_linux-x86_64.run --install-path=${install_path}
 ```
 
+## 1.3 安装 PyPTO 并加载环境
+
+按[PyPTO 官方安装文档](https://gitcode.com/cann/pypto/blob/master/docs/zh/install/build_and_install.md)安装与 CANN 环境匹配的版本。导出和构建前，先按实际安装目录加载 CANN 环境：
+
+```bash
+export CANN_INSTALL_PATH=/xxx/Ascend  # 替换为实际安装路径
+source "${CANN_INSTALL_PATH}/cann/set_env.sh"
+```
+
 # 2. 注册安装 pypto 自定义算子
+
+以下示例源码位于 PyPTO 仓库的 `examples/03_advanced/exported_custom_op_litenpu/onnx/add`，先克隆 PyPTO 并进入样例目录：
+
+```bash
+git clone https://gitcode.com/cann/pypto.git
+cd pypto/examples/03_advanced/exported_custom_op_litenpu
+```
 
 ## 2.1 kernel.py
 
@@ -108,11 +124,11 @@ if __name__ == "__main__":
 export CANN_INSTALL_PATH=/xxx/Ascend   # CANN 包的安装路径
 source ${CANN_INSTALL_PATH}/cann/set_env.sh
 
-# 导出 ONNX
-python3 export_demo.py tmp/model.onnx
+# 导出 ONNX（在 pypto/examples/03_advanced/exported_custom_op_litenpu 目录下执行）
+python3 onnx/add/export_demo.py tmp/model.onnx
 
 # 构造自定义算子工程
-python3 build_so_and_setup.py tmp/model.onnx
+python3 ../../../tools/exported_custom_op_litenpu/deploy/build_so_and_setup.py tmp/model.onnx
 
 export ASCEND_CUSTOM_OPP_PATH=/xxx/tmp/build_op_kernel_lib/build
 
