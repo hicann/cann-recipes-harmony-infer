@@ -23,6 +23,8 @@
 using namespace testing;
 using namespace hiai;
 
+extern "C" size_t HMS_Test_GetNNTensorCreateCount();
+extern "C" size_t HMS_Test_GetNNTensorDestroyCount();
 std::vector<std::vector<int32_t>> HIAI_UT_GetInputTensorShapeSnapshots(const OH_NNCompilation *compilation);
 
 namespace Unittest::AscendclTest {
@@ -482,6 +484,39 @@ TEST_F(CompilerUT, MallocAndMemset)
     EXPECT_EQ(ret, ACL_SUCCESS);
 }
 
+TEST_F(CompilerUT, unload_model_destroys_unconsumed_dynamic_input_tensors)
+{
+    uint32_t modelId = 0;
+    auto ret = aclmdlLoadFromFile(modelPath_.c_str(), &modelId);
+    ASSERT_EQ(ACL_SUCCESS, ret);
+
+    const size_t inputSize = 1 * 3 * 64 * 64 * sizeof(float);
+    void* input0 = nullptr;
+    void* input1 = nullptr;
+    ASSERT_EQ(ACL_SUCCESS, aclrtMalloc(&input0, inputSize, ACL_MEM_MALLOC_NORMAL_ONLY));
+    ASSERT_EQ(ACL_SUCCESS, aclrtMalloc(&input1, inputSize, ACL_MEM_MALLOC_NORMAL_ONLY));
+
+    aclmdlDataset* dataset = aclmdlCreateDataset();
+    ASSERT_NE(nullptr, dataset);
+    ASSERT_EQ(ACL_SUCCESS, aclmdlAddDatasetBuffer(dataset, aclCreateDataBuffer(input0, inputSize)));
+    ASSERT_EQ(ACL_SUCCESS, aclmdlAddDatasetBuffer(dataset, aclCreateDataBuffer(input1, inputSize)));
+
+    const aclmdlIODims dims = {"", 8, {1, 2, 3, 4, 1, 2, 3, 4}};
+    const size_t createdBefore = HMS_Test_GetNNTensorCreateCount();
+    const size_t destroyedBefore = HMS_Test_GetNNTensorDestroyCount();
+    ret = aclmdlSetInputDynamicDims(modelId, dataset, 0, &dims);
+    ASSERT_EQ(ACL_SUCCESS, ret);
+    EXPECT_EQ(createdBefore + 2, HMS_Test_GetNNTensorCreateCount());
+    EXPECT_EQ(destroyedBefore, HMS_Test_GetNNTensorDestroyCount());
+
+    ret = aclmdlUnload(modelId);
+    EXPECT_EQ(ACL_SUCCESS, ret);
+    EXPECT_EQ(destroyedBefore + 2, HMS_Test_GetNNTensorDestroyCount());
+
+    EXPECT_EQ(ACL_SUCCESS, aclmdlDestroyDataset(dataset));
+    EXPECT_EQ(ACL_SUCCESS, aclrtFree(input0));
+    EXPECT_EQ(ACL_SUCCESS, aclrtFree(input1));
+}
 TEST_F(CompilerUT, MemsetAllowsFullBuffer)
 {
     void* ptr = nullptr;

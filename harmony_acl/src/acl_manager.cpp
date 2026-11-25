@@ -879,6 +879,12 @@ aclError ACLManager::UnloadModel(uint32_t modelId)
         ACL_LOGE("modelId can not find");
         return ACL_ERROR_INVALID_PARAM;
     }
+    const auto dynamicIter = dynamicInput_.find(modelId);
+    if (dynamicIter != dynamicInput_.end())
+    {
+        DestroyTensors(dynamicIter->second);
+        dynamicInput_.erase(dynamicIter);
+    }
     executorMap_.erase(modelId);
     return ACL_SUCCESS;
 }

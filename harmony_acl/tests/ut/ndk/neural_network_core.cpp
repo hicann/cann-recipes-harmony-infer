@@ -44,6 +44,20 @@ void DestroyNNCompilation(NNCompilation* nnCompilation)
 }
 
 static std::mutex runMutex;
+namespace {
+size_t gNNTensorCreateCountForTest = 0;
+size_t gNNTensorDestroyCountForTest = 0;
+}
+
+extern "C" size_t HMS_Test_GetNNTensorCreateCount()
+{
+    return gNNTensorCreateCountForTest;
+}
+
+extern "C" size_t HMS_Test_GetNNTensorDestroyCount()
+{
+    return gNNTensorDestroyCountForTest;
+}
 
 OH_NNCompilation* OH_NNCompilation_Construct(const OH_NNModel* model)
 {
@@ -250,6 +264,7 @@ NN_Tensor* OH_NNTensor_Create(size_t deviceID, NN_TensorDesc* tensorDesc)
     nnTensor->deviceID = deviceID;
     nnTensor->tensorDesc = tensorDesc;
     nnTensor->tensorData.resize(nnTensor->tensorSize);
+    ++gNNTensorCreateCountForTest;
     return reinterpret_cast<NN_Tensor*>(nnTensor);
 }
 
@@ -272,6 +287,7 @@ OH_NN_ReturnCode OH_NNTensor_Destroy(NN_Tensor** tensor)
         nnTensor->tensorData.clear();
         delete nnTensor;
         *tensor = nullptr;
+        ++gNNTensorDestroyCountForTest;
     }
     return OH_NN_SUCCESS;
 }
