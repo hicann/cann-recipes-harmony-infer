@@ -120,8 +120,8 @@ export LD_LIBRARY_PATH=$_ASCEND_INSTALL_PATH/x86_64-linux/simulator/${_SOC_VERSI
 if [ ! $CAMODEL_LOG_PATH ]; then
     export CAMODEL_LOG_PATH=./sim_log
 fi
-rm -rf $CAMODEL_LOG_PATH
-mkdir -p $CAMODEL_LOG_PATH
+rm -rf "$CAMODEL_LOG_PATH"
+mkdir -p "$CAMODEL_LOG_PATH"
 
 if [ "$SKIP_BUILD" -eq 0 ]; then
     set -e

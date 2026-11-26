@@ -546,15 +546,32 @@ if (shape_tensor->GetDataType() == ge::DT_INT32) {
 
 编译AddCustom工程，生成自定义算子安装包，并将其安装到算子库中。
 
-1. 编译自定义算子工程，构建生成自定义算子包。
-    在算子工程AddCustom目录下执行如下命令，进行算子工程编译。
+1. 编译自定义算子工程，构建生成自定义算子包。在算子工程AddCustom目录下执行如下命令，进行算子工程编译。
+
     ```shell
     ./build_and_install.sh
     ```
     
-    编译成功后，会在当前目录下创建build_out目录，在build_out/autogen目录下生成自定义算子交付件。
+    编译成功后，build_out目录下会生成：
+    - autogen：自定义算子交付件。
+    - custom_opp_${os_id}_${arch}.run：自定义算子安装包。其中`${os_id}`为执行脚本的机器的操作系统ID（取自/etc/os-release的ID字段，如ubuntu、openEuler），`${arch}`为该机器的CPU架构（取自uname -m，如x86_64、aarch64）。
+
+2. 安装自定义算子run包。
+   build_and_install.sh已自动完成安装。若需要单独安装、重新安装或升级run包，执行以下命令：
+   ```shell
+   cd build_out
+   chmod +x custom_opp_${os_id}_${arch}.run
+   ./custom_opp_${os_id}_${arch}.run --quiet
+   ```
+
+   --quiet表示静默安装。安装脚本会将run包中的算子实现、算子信息库、算子原型库和aclnn接口等释放到`$ASCEND_HOME_PATH/opp/vendors/${vendor_name}/`目录下，`${vendor_name}`为编译时配置的厂商名，未配置时默认为customize。
+
+   说明：
+   - run包与CANN版本、操作系统及CPU架构相关，需在对应的运行环境上安装。
+   - 安装目录需具备写权限；开发环境与运行环境分设时，需在运行环境上执行安装。
+   - 卸载时执行`./custom_opp_${os_id}_${arch}.run --uninstall`。
     
-2. 自定义算子安装包部署。
+3. 自定义算子安装包部署。
    在执行编译的同时，会将交付件安装为如下目录结构
 
     

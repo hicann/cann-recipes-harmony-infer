@@ -8,7 +8,7 @@
 
 - 推荐使用[Ubuntu 22.04](https://mirrors.ustc.edu.cn/ubuntu-releases/22.04/)及以上版本、MacOS 10.14及以上版本、Windows 10及以上版本安装应用开发环境[DevEco Studio](https://developer.huawei.com/consumer/cn/deveco-studio/)。
 
-- 准备训练好的使用CANN包中ATC工具生成的[离线模型](cannkit-overall-parameter.md)或者从[Model Zoo](cannkit-model-zoo.md)中选择合适的模型。
+- 准备训练好的使用CANN包中ATC工具生成的离线模型或者从Model Zoo中选择合适的模型。
 
 
 ## Tools下载
