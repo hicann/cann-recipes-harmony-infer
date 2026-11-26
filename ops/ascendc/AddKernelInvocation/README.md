@@ -11,9 +11,8 @@
 │   │── add_custom.cpp          // 算子kernel实现，暴露给main.cpp调用
 │   │── CMakeLists.txt          // 编译工程文件
 │   │── data_utils.h            // 数据读入写出函数
-│   │── main.cpp                // 主函数，调用算子的应用程序，含CPU域及NPU域调用
-│   ├── run_cpu.sh                  // 编译并在cpu域运行算子的脚本
-│   ├── run_sim.sh                  // 编译并在npu仿真运行算子的脚本
+│   │── main.cpp                // 主函数，调用算子的应用程序
+│   ├── run_sim.sh              // 编译并在npu仿真运行算子的脚本
 ``` 
 
 
@@ -21,7 +20,7 @@
 如果将该样例工程替换为自己的算子实现，需要修改以下内容
 1.add_custom.cpp为核函数实现，整个文件都要替换成新算子实现
 此外，在以下文件中搜索 “迁移算子修改点”
-2.run_cpu.sh/run_sim.sh
+2.run_sim.sh
 根据实际算子名，修改FILE_NAME属性
 3.scripts/gen_data.py
 需自定义生成输入数据的内容（Shape/数据类型/算子的输入参数数量）
@@ -41,10 +40,8 @@
   Add算子的实现流程分为3个基本任务：CopyIn，Compute，CopyOut。CopyIn任务负责将Global Memory上的输入Tensor xGm和yGm搬运到Local Memory，分别存储在xLocal、yLocal，Compute任务负责对xLocal、yLocal执行加法操作，计算结果存储在zLocal中，CopyOut任务负责将输出数据从zLocal搬运至Global Memory上的输出Tensor zGm中。具体请参考[add_custom.cpp](./add_custom.cpp)。
 
 - 调用实现  
-  1. CPU侧运行验证主要通过ICPU_RUN_KF CPU调测宏等CPU调测库提供的接口来完成；  
-  2. NPU侧运行验证主要通过使用<<<>>>内核调用符来完成。
+  NPU侧运行验证主要通过使用<<<>>>内核调用符来完成。
 
-  应用程序通过ASCENDC_CPU_DEBUG 宏区分代码逻辑运行于CPU侧还是NPU侧。
 ## 运行样例算子
 - 打开样例目录
 
@@ -61,7 +58,6 @@
 - 样例执行
 
   ```
-  bash run_cpu.sh -v  [SOC_VERSION]
   bash run_sim.sh -v  [SOC_VERSION] 
   ```
   - RUN_MODE：编译方式，sim（NPU仿真）。
@@ -69,7 +65,6 @@
 
   示例如下。
   ```
-  bash run_cpu.sh -v KirinX90
   bash run_sim.sh -v KirinX90
   ```   
 

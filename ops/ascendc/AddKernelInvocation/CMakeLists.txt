@@ -12,5 +12,4 @@ else()
   set(KERNEL_SRC ${CMAKE_CURRENT_SOURCE_DIR}/add_custom.cpp)
 endif()
 
-add_subdirectory(cmake/cpu)
 add_subdirectory(cmake/npu)

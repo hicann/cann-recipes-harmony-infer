@@ -81,12 +81,10 @@ if(ASCEND_RUN_MODE STREQUAL "npu")
 elseif(ASCEND_RUN_MODE STREQUAL "sim")
     list(APPEND _CMAKE_CCE_HOST_IMPLICIT_LINK_DIRECTORIES )
     list(APPEND _CMAKE_CCE_HOST_IMPLICIT_LINK_LIBRARIES runtime_camodel)
-elseif(ASCEND_RUN_MODE STREQUAL "cpu")
-    message(STATUS "RUN_MODE is cpu")
 else()
     message(FATAL_ERROR
         "ASCEND_RUN_MODE: ${ASCEND_RUN_MODE}\n"
-        "ASCEND_RUN_MODE must be one of the following: cpu, npu or sim"
+        "ASCEND_RUN_MODE must be one of the following: npu or sim"
     )
 endif()
 list(APPEND _CMAKE_CCE_HOST_IMPLICIT_LINK_LIBRARIES ascendcl)
